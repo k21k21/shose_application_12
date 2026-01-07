@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shose_application_12/login.dart';
+import 'package:shose_application_12/view/login.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

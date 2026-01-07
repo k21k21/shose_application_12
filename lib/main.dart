@@ -1,8 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:shose_application_12/homepage.dart';
-import 'package:shose_application_12/login.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:shose_application_12/viewmodel/signup_viewmodel.dart';
+
+import 'view/login.dart';
+import 'homepage.dart';
+import 'viewmodel/login_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,9 +19,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AuthGate(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LoginViewModel(),
+        ),
+        ChangeNotifierProvider(create: (_) => SignupViewModel()),
+
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: AuthGate(),
+      ),
     );
   }
 }
@@ -32,7 +45,7 @@ class AuthGate extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(child: Column(children: [])),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -40,7 +53,7 @@ class AuthGate extends StatelessWidget {
           return HomePage();
         }
 
-        return loginpage();
+        return const loginpage();
       },
     );
   }
