@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/signup_viewmodel.dart';
-import 'homepage.dart';
+import '../homepage.dart';
 import 'login.dart';
 
-class signup extends StatefulWidget {
+class signup extends StatelessWidget {
   const signup({super.key});
-
-  @override
-  State<signup> createState() => _signupState();
-}
-
-class _signupState extends State<signup> {
-  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<SignupViewModel>();
-
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -67,14 +59,13 @@ class _signupState extends State<signup> {
                       key: vm.formKey,
                       child: Column(
                         children: [
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 40),
 
                           const Text(
-                            "SignUp",
+                            "Sign Up",
                             style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold,
-                                fontFamily: "PTSerif-Bold"
                             ),
                           ),
 
@@ -83,7 +74,6 @@ class _signupState extends State<signup> {
                           _field(
                             controller: vm.emailCon,
                             hint: "Email",
-                            icon: Icons.email,
                             validator: (v) {
                               if (v == null || v.isEmpty) {
                                 return "Enter your email";
@@ -100,7 +90,6 @@ class _signupState extends State<signup> {
                           _field(
                             controller: vm.passwordCon,
                             hint: "Password",
-                            icon: Icons.lock,
                             obscure: true,
                             validator: (v) {
                               if (v == null || v.isEmpty) {
@@ -118,7 +107,6 @@ class _signupState extends State<signup> {
                           _field(
                             controller: vm.confirmPasswordCon,
                             hint: "Confirm Password",
-                            icon: Icons.lock,
                             obscure: true,
                             validator: (v) {
                               if (v == null || v.isEmpty) {
@@ -136,8 +124,8 @@ class _signupState extends State<signup> {
                                 ? null
                                 : () => vm.signup(context, HomePage()),
                             color: Colors.black,
-                            minWidth: 250,
-                            height: 50,
+                            minWidth: 300,
+                            height: 40,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -148,10 +136,9 @@ class _signupState extends State<signup> {
                                 : const Text(
                               "Create Account",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "PTSerif-Bold"
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -164,8 +151,7 @@ class _signupState extends State<signup> {
                             children: [
                               const Text(
                                 "Already have an account?",
-                                style: TextStyle(fontSize: 15,
-                                    fontFamily: "PTSerif-Bold"),
+                                style: TextStyle(fontSize: 18),
                               ),
                               TextButton(
                                 onPressed: () {
@@ -179,8 +165,7 @@ class _signupState extends State<signup> {
                                 child: const Text(
                                   "Login",
                                   style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: "PTSerif-Bold",
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
                                     color: Colors.black,
@@ -223,7 +208,6 @@ class _signupState extends State<signup> {
     required String hint,
     bool obscure = false,
     String? Function(String?)? validator,
-    IconData? icon,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -234,37 +218,11 @@ class _signupState extends State<signup> {
         ),
         child: TextFormField(
           controller: controller,
-          obscureText: obscure ? _obscurePassword : false,
-
+          obscureText: obscure,
           validator: validator,
           decoration: InputDecoration(
             hintText: hint,
-            prefixIcon: icon != null ? Icon(icon, color: Colors.black) : null,
-            suffixIcon: obscure
-                ? IconButton(
-              icon: Icon(
-                _obscurePassword
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                setState(() {
-                  _obscurePassword = !_obscurePassword;
-                });
-              },
-            )
-                  : null,
-          filled: true,
-          fillColor: Colors.grey.shade200,
-          border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.black, width: 1),
-        ),
+            border: InputBorder.none,
             contentPadding:
             const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
           ),
