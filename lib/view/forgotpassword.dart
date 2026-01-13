@@ -58,9 +58,10 @@ class ForgotPasswordPage extends StatelessWidget {
                         const Text(
                           "Forgot Password",
                           style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                              fontFamily: "PTSerif-Bold"
                           ),
                         ),
                         const SizedBox(height: 40),
@@ -68,6 +69,7 @@ class ForgotPasswordPage extends StatelessWidget {
                           child: _field(
                             controller: vm.emailController,
                             hint: "Enter your email",
+                            icon: Icons.email,
                             validator: (v) {
                               if (v == null || v.isEmpty) return "Enter your email";
                               if (!v.contains('@')) return "Invalid email";
@@ -91,9 +93,10 @@ class ForgotPasswordPage extends StatelessWidget {
                               : const Text(
                             "Send Reset Link",
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PTSerif-Bold"
                             ),
                           ),
                         ),
@@ -104,7 +107,8 @@ class ForgotPasswordPage extends StatelessWidget {
                           children: [
                             const Text(
                               "Remember your password?",
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 15,
+                                  fontFamily: "PTSerif-Bold"),
                             ),
                             TextButton(
                               onPressed: () {
@@ -113,17 +117,18 @@ class ForgotPasswordPage extends StatelessWidget {
                               child: const Text(
                                 "Login",
                                 style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.black,
+                                    fontFamily: "PTSerif-Bold"
                                 ),
                               ),
                             ),
                           ],
 
                         ),
-                        SizedBox(height: 40,)
+
                       ],
                     ),
                   ),
@@ -156,6 +161,7 @@ class ForgotPasswordPage extends StatelessWidget {
     required String hint,
     bool obscure = false,
     String? Function(String?)? validator,
+    IconData? icon,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -177,7 +183,12 @@ class ForgotPasswordPage extends StatelessWidget {
           validator: validator,
           decoration: InputDecoration(
             hintText: hint,
+            prefixIcon: icon != null ? Icon(icon, color: Colors.black) : null,
             border: InputBorder.none,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Colors.black, width: 1),
+            ),
             contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           ),

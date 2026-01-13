@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../viewmodel/forgotpassword_viewmodel.dart';
 import '../viewmodel/login_viewmodel.dart';
 import 'forgotpassword.dart';
 import 'signup.dart';
-import '../homepage.dart';
+import 'homepage.dart';
 
 class TopLeftBigCurveClipper extends CustomClipper<Path> {
   @override
@@ -23,8 +24,15 @@ class TopLeftBigCurveClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
-class loginpage extends StatelessWidget {
+class loginpage extends StatefulWidget {
   const loginpage({super.key});
+
+  @override
+  State<loginpage> createState() => _loginpageState();
+}
+
+class _loginpageState extends State<loginpage> {
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +63,8 @@ class loginpage extends StatelessWidget {
                 child: Container(
                   width: 500,
                   height: 900,
-                  padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 40, horizontal: 20),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Colors.white, Colors.white70],
@@ -72,7 +81,10 @@ class loginpage extends StatelessWidget {
                   ),
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                      bottom: MediaQuery
+                          .of(context)
+                          .viewInsets
+                          .bottom,
                     ),
                     child: Form(
                       key: vm.formKey,
@@ -82,8 +94,9 @@ class loginpage extends StatelessWidget {
                           const Text(
                             "Login",
                             style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold,
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PTSerif-Bold"
                             ),
                           ),
 
@@ -92,13 +105,12 @@ class loginpage extends StatelessWidget {
                           _field(
                             controller: vm.emailCon,
                             hint: "Email",
+                            icon: Icons.email,
+
                             validator: (v) {
-                              if (v == null || v.isEmpty) {
+                              if (v == null || v.isEmpty)
                                 return "Enter your email";
-                              }
-                              if (!v.contains('@')) {
-                                return "Invalid email";
-                              }
+                              if (!v.contains('@')) return "Invalid email";
                               return null;
                             },
                           ),
@@ -108,14 +120,12 @@ class loginpage extends StatelessWidget {
                           _field(
                             controller: vm.passwordCon,
                             hint: "Password",
+                            icon: Icons.lock,
                             obscure: true,
                             validator: (v) {
-                              if (v == null || v.isEmpty) {
+                              if (v == null || v.isEmpty)
                                 return "Enter your password";
-                              }
-                              if (v.length < 6) {
-                                return "Min 6 characters";
-                              }
+                              if (v.length < 6) return "Min 6 characters";
                               return null;
                             },
                           ),
@@ -127,18 +137,21 @@ class loginpage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => ChangeNotifierProvider(
-                                      create: (_) => ForgotPasswordViewModel(),
-                                      child:  ForgotPasswordPage(),
-                                    ),
+                                    builder: (_) =>
+                                        ChangeNotifierProvider(
+                                          create: (_) =>
+                                              ForgotPasswordViewModel(),
+                                          child: ForgotPasswordPage(),
+                                        ),
                                   ),
                                 );
                               },
                               child: const Text(
                                 "Forgot Password?",
                                 style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontFamily: "PTSerif-Bold"
                                 ),
                               ),
                             ),
@@ -152,52 +165,62 @@ class loginpage extends StatelessWidget {
                                 ? null
                                 : () => vm.login(context, HomePage()),
                             color: Colors.black,
-                            minWidth: 300,
-                            height: 40,
+                            minWidth: 250,
+                            height: 50,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: vm.isLoading
                                 ? const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
+                              color: Colors.white,
+                            )
                                 : const Text(
-                                    "Login",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                              "Login",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "PTSerif-Bold"
+                              ),
+                            ),
                           ),
 
                           const SizedBox(height: 10),
                           // 🔹 Google Login
-                          MaterialButton(
-                            onPressed: () =>
-                                vm.signInWithGoogle(context, HomePage()),
-                            color: Colors.black,
-                            minWidth: 300,
-                            height: 40,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Text(
-                              "Login with Google",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Google Button
+                              MaterialButton(
+                                onPressed: () =>
+                                    vm.signInWithGoogle(context, HomePage()),
+
+
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/search.png',
+                                      height: 30,
+                                    ),
+
+
+                                  ],
+                                ),
                               ),
-                            ),
+
+                            ],
                           ),
+                          SizedBox(height: 2,),
                           // 🔹 Create Account
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
                                 "Don't have an account?",
-                                style: TextStyle(fontSize: 15),
+                                style: TextStyle(fontSize: 15,
+                                    fontFamily: "PTSerif-Bold"),
+
                               ),
 
                               TextButton(
@@ -212,10 +235,11 @@ class loginpage extends StatelessWidget {
                                 child: const Text(
                                   "Create Account",
                                   style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.black,
+                                      fontFamily: "PTSerif-Bold"
                                   ),
                                 ),
                               ),
@@ -233,7 +257,10 @@ class loginpage extends StatelessWidget {
           // 🔹 Logo
           Positioned(
             top: 40,
-            left: MediaQuery.of(context).size.width / 2 - 50,
+            left: MediaQuery
+                .of(context)
+                .size
+                .width / 2 - 50,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Image.asset(
@@ -255,26 +282,44 @@ class loginpage extends StatelessWidget {
     required String hint,
     bool obscure = false,
     String? Function(String?)? validator,
+    IconData? icon,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 235, 235, 235),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: TextFormField(
-          controller: controller,
-          obscureText: obscure,
-          validator: validator,
-          decoration: InputDecoration(
-            hintText: hint,
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 25,
-              vertical: 18,
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscure ? _obscurePassword : false,
+        validator: validator,
+        decoration: InputDecoration(
+          hintText: hint,
+          prefixIcon: icon != null ? Icon(icon, color: Colors.black) : null,
+          suffixIcon: obscure
+              ? IconButton(
+            icon: Icon(
+              _obscurePassword
+                  ? Icons.visibility_off
+                  : Icons.visibility,
+              color: Colors.black,
             ),
+            onPressed: () {
+              setState(() {
+                _obscurePassword = !_obscurePassword;
+              });
+            },
+          )
+              : null,
+          filled: true,
+          fillColor: Colors.grey.shade200,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
           ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Colors.black, width: 1),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20, vertical: 18),
         ),
       ),
     );

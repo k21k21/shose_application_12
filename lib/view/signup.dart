@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/signup_viewmodel.dart';
-import '../homepage.dart';
+import 'homepage.dart';
 import 'login.dart';
 
-class signup extends StatelessWidget {
+class signup extends StatefulWidget {
   const signup({super.key});
+
+  @override
+  State<signup> createState() => _signupState();
+}
+
+class _signupState extends State<signup> {
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<SignupViewModel>();
+
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -59,13 +67,14 @@ class signup extends StatelessWidget {
                       key: vm.formKey,
                       child: Column(
                         children: [
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 30),
 
                           const Text(
-                            "Sign Up",
+                            "SignUp",
                             style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold,
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PTSerif-Bold"
                             ),
                           ),
 
@@ -74,6 +83,7 @@ class signup extends StatelessWidget {
                           _field(
                             controller: vm.emailCon,
                             hint: "Email",
+                            icon: Icons.email,
                             validator: (v) {
                               if (v == null || v.isEmpty) {
                                 return "Enter your email";
@@ -90,6 +100,7 @@ class signup extends StatelessWidget {
                           _field(
                             controller: vm.passwordCon,
                             hint: "Password",
+                            icon: Icons.lock,
                             obscure: true,
                             validator: (v) {
                               if (v == null || v.isEmpty) {
@@ -107,6 +118,7 @@ class signup extends StatelessWidget {
                           _field(
                             controller: vm.confirmPasswordCon,
                             hint: "Confirm Password",
+                            icon: Icons.lock,
                             obscure: true,
                             validator: (v) {
                               if (v == null || v.isEmpty) {
@@ -124,8 +136,8 @@ class signup extends StatelessWidget {
                                 ? null
                                 : () => vm.signup(context, HomePage()),
                             color: Colors.black,
-                            minWidth: 300,
-                            height: 40,
+                            minWidth: 250,
+                            height: 50,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -136,9 +148,10 @@ class signup extends StatelessWidget {
                                 : const Text(
                               "Create Account",
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "PTSerif-Bold"
                               ),
                             ),
                           ),
@@ -151,7 +164,8 @@ class signup extends StatelessWidget {
                             children: [
                               const Text(
                                 "Already have an account?",
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 15,
+                                    fontFamily: "PTSerif-Bold"),
                               ),
                               TextButton(
                                 onPressed: () {
@@ -165,7 +179,8 @@ class signup extends StatelessWidget {
                                 child: const Text(
                                   "Login",
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 15,
+                                    fontFamily: "PTSerif-Bold",
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
                                     color: Colors.black,
@@ -208,6 +223,7 @@ class signup extends StatelessWidget {
     required String hint,
     bool obscure = false,
     String? Function(String?)? validator,
+    IconData? icon,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -218,11 +234,37 @@ class signup extends StatelessWidget {
         ),
         child: TextFormField(
           controller: controller,
-          obscureText: obscure,
+          obscureText: obscure ? _obscurePassword : false,
+
           validator: validator,
           decoration: InputDecoration(
             hintText: hint,
-            border: InputBorder.none,
+            prefixIcon: icon != null ? Icon(icon, color: Colors.black) : null,
+            suffixIcon: obscure
+                ? IconButton(
+              icon: Icon(
+                _obscurePassword
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+            )
+                : null,
+            filled: true,
+            fillColor: Colors.grey.shade200,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Colors.black, width: 1),
+            ),
             contentPadding:
             const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
           ),
