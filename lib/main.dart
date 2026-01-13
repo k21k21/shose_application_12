@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shose_application_12/viewmodel/signup_viewmodel.dart';
 
 import 'view/login.dart';
-import 'homepage.dart';
+import 'view/homepage.dart';
 import 'viewmodel/login_viewmodel.dart';
 
 void main() async {
