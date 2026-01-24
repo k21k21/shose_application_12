@@ -1,13 +1,29 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shose_application_12/homepage.dart';
-import 'package:shose_application_12/login.dart';
+import 'package:provider/provider.dart';
+import 'package:shose_application_12/view/bottom_navigations.dart';
+import 'package:shose_application_12/viewmodel/app_settings.dart';
+import 'package:shose_application_12/viewmodel/forgotpassword_viewmodel.dart';
+import 'package:shose_application_12/viewmodel/signup_viewmodel.dart';
+import 'view/login.dart';
+import 'viewmodel/login_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => SignupViewModel()),
+        ChangeNotifierProvider(create: (_) => AppSettings()),
+        ChangeNotifierProvider(create: (_) => ForgotPasswordViewModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,13 +47,11 @@ class AuthGate extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: Column(children: [])),
-          );
+          return const Scaffold();
         }
 
         if (snapshot.hasData) {
-          return HomePage();
+          return BottomNavigation();
         }
 
         return loginpage();
