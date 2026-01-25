@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shose_application_12/view/favorite_view.dart';
 import 'package:shose_application_12/view/login.dart';
+import 'package:shose_application_12/view/setting.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -9,119 +12,319 @@ class ProfileView extends StatefulWidget {
   _ProfileViewState createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
-  bool _isDarkModeEnabled = false;
+bool isSelected1 = false;
+bool isSelected2 = false;
+bool isSelected3 = false;
+bool isSelected4 = false;
 
+class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: Colors.black,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Container(
-                padding: const EdgeInsets.all(8),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (context, child) {
+        return Scaffold(
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          body: Column(
+            children: [
+              Container(
+                height: 400.h,
+                width: 500.w,
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade800,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.nightlight_round,
-                  color: Colors.grey,
-                  size: 20,
-                ),
-              ),
-              title: const Text('Dark Mode'),
-              trailing: Switch(
-                value: _isDarkModeEnabled,
-                onChanged: (value) {
-                  setState(() {
-                    _isDarkModeEnabled = value;
-                  });
-                },
-              ),
-            ),
-            const Divider(),
-
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(
-                Icons.language,
-                color: Colors.blueAccent,
-                size: 36,
-              ),
-              title: const Text('Language'),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Text('English', style: TextStyle(color: Colors.grey)),
-                  SizedBox(width: 8.0),
-                  Icon(Icons.arrow_forward_ios, size: 16.0),
-                ],
-              ),
-              onTap: () {},
-            ),
-            const SizedBox(height: 30.0),
-
-            Text(
-              'Account',
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
+                  color: const Color.fromARGB(255, 0, 0, 0),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.r),
+                    bottomRight: Radius.circular(30.r),
                   ),
-                ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 50.h),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20.h),
+                      Center(
+                        child: CircleAvatar(
+                          radius: 45.r,
+                          backgroundImage: NetworkImage(
+                            'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80',
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Center(
+                        child: Text(
+                          'Jane Cooper',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5.h),
+                      Center(
+                        child: Text(
+                          'Janeper01@gmail.com',
+                          style: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                        ),
+                      ),
+                      SizedBox(height: 25.h),
+                      Padding(
+                        padding: EdgeInsets.only(top: 30.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const SavedView(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12.h,
+                                  horizontal: 22.w,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade800.withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(15.r),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.bookmark,
+                                      color: Colors.white,
+                                      size: 28.sp,
+                                    ),
+                                    SizedBox(height: 5.h),
+                                    Text(
+                                      'Saved',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12.h,
+                                  horizontal: 22.w,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade800.withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(15.r),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.receipt_long,
+                                      color: Colors.white,
+                                      size: 28.sp,
+                                    ),
+                                    SizedBox(height: 5.h),
+                                    Text(
+                                      'My Orders',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12.h,
+                                  horizontal: 22.w,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade800.withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(15.r),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.history,
+                                      color: Colors.white,
+                                      size: 28.sp,
+                                    ),
+                                    SizedBox(height: 5.h),
+                                    Center(
+                                      child: Text(
+                                        'My requests',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const Icon(
-                      Icons.delete_outline,
-                      color: Colors.red,
+              Padding(
+                padding: EdgeInsets.only(top: 20.h),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SettingsPage(),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 3.h,
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.settings_outlined,
+                            color: Colors.black,
+                            size: 28.sp,
+                          ),
+                          title: Text(
+                            'Setting',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp,
+                              fontFamily: "Roboto_Condensed",
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    title: const Text('Delete account'),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16.0),
-                    onTap: () {
-                      // Handle delete account action
-                    },
-                  ),
-                  const Divider(height: 1, indent: 50, endIndent: 16),
-                  ListTile(
-                    leading: const Icon(Icons.logout, color: Colors.red),
-                    title: const Text('Logout'),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16.0),
-                    onTap: () async {
-                      await FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => loginpage()),
-                      );
-                    },
-                  ),
-                ],
+                    SizedBox(height: 5.h),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SettingsPage(),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 3.h,
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.info_outline,
+                            color: Colors.black,
+                            size: 28.sp,
+                          ),
+                          title: Text(
+                            'About App',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp,
+                              fontFamily: "Roboto_Condensed",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5.h),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SettingsPage(),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 3.h,
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.help_outline,
+                            color: Colors.black,
+                            size: 28.sp,
+                          ),
+                          title: Text(
+                            'Help & Support',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp,
+                              fontFamily: "Roboto_Condensed",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5.h),
+                    InkWell(
+                      onTap: () {
+                        () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => loginpage(),
+                            ),
+                          );
+                        };
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 3.h,
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.logout,
+                            color: Colors.red,
+                            size: 28.sp,
+                          ),
+                          title: Text(
+                            'Log out',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp,
+                              fontFamily: "Roboto_Condensed",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

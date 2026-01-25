@@ -408,7 +408,9 @@ class _HomePageState extends State<HomePage> {
                             });
                           },
                           child: Icon(
-                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            isFavorite
+                                ? Icons.bookmark
+                                : Icons.bookmark_add_outlined,
                             color: isFavorite
                                 ? const Color.fromARGB(255, 0, 0, 0)
                                 : const Color.fromARGB(255, 0, 0, 0),

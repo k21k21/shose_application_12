@@ -217,10 +217,9 @@ class _detailspageState extends State<detailspage> {
                 padding: EdgeInsets.all(8.w),
                 child: Row(
                   children: [
-                    buildColorOption(
-                      "assets/images/s-l1200-removebg-preview.png",
-                      isSelected1,
-                      () {
+                    SizedBox(width: 10.w),
+                    InkWell(
+                      onTap: () {
                         setState(() {
                           isSelected1 = true;
                           isSelected2 = false;
@@ -228,12 +227,28 @@ class _detailspageState extends State<detailspage> {
                           isSelected4 = false;
                         });
                       },
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 245, 243, 243),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: isSelected1
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2,
+                          ),
+                        ),
+                        child: Image.asset(
+                          "assets/images/s-l1200-removebg-preview.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     SizedBox(width: 10.w),
-                    buildColorOption(
-                      "assets/images/s-l1200-removebg-preview.png",
-                      isSelected2,
-                      () {
+                    InkWell(
+                      onTap: () {
                         setState(() {
                           isSelected1 = false;
                           isSelected2 = true;
@@ -241,12 +256,28 @@ class _detailspageState extends State<detailspage> {
                           isSelected4 = false;
                         });
                       },
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 245, 243, 243),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: isSelected2
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2,
+                          ),
+                        ),
+                        child: Image.asset(
+                          "assets/images/s-l1200-removebg-preview.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     SizedBox(width: 10.w),
-                    buildColorOption(
-                      "assets/images/s-l1200-removebg-preview.png",
-                      isSelected3,
-                      () {
+                    InkWell(
+                      onTap: () {
                         setState(() {
                           isSelected1 = false;
                           isSelected2 = false;
@@ -254,12 +285,28 @@ class _detailspageState extends State<detailspage> {
                           isSelected4 = false;
                         });
                       },
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 245, 243, 243),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: isSelected3
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2,
+                          ),
+                        ),
+                        child: Image.asset(
+                          "assets/images/s-l1200-removebg-preview.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     SizedBox(width: 10.w),
-                    buildColorOption(
-                      "assets/images/s-l1200-removebg-preview.png",
-                      isSelected4,
-                      () {
+                    InkWell(
+                      onTap: () {
                         setState(() {
                           isSelected1 = false;
                           isSelected2 = false;
@@ -267,6 +314,24 @@ class _detailspageState extends State<detailspage> {
                           isSelected4 = true;
                         });
                       },
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 245, 243, 243),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: isSelected4
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2,
+                          ),
+                        ),
+                        child: Image.asset(
+                          "assets/images/s-l1200-removebg-preview.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -294,53 +359,221 @@ class _detailspageState extends State<detailspage> {
                 padding: EdgeInsets.all(8.w),
                 child: Row(
                   children: [
-                    buildSizeOption("40", Selected1, () {
-                      setState(() {
-                        Selected1 = true;
-                        Selected2 = Selected3 = Selected4 = Selected5 =
-                            Selected6 = false;
-                      });
-                    }),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          Selected1 = true;
+                          Selected2 = false;
+                          Selected3 = false;
+                          Selected4 = false;
+                          Selected5 = false;
+                          Selected6 = false;
+                        });
+                      },
+                      child: Container(
+                        width: 70.w,
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: Selected1
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "40",
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(width: 10.w),
-                    buildSizeOption("41", Selected2, () {
-                      setState(() {
-                        Selected2 = true;
-                        Selected1 = Selected3 = Selected4 = Selected5 =
-                            Selected6 = false;
-                      });
-                    }),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          Selected1 = false;
+                          Selected2 = true;
+                          Selected3 = false;
+                          Selected4 = false;
+                          Selected5 = false;
+                          Selected6 = false;
+                        });
+                      },
+                      child: Container(
+                        width: 70.w,
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: Selected2
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "41",
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(width: 10.w),
-                    buildSizeOption("42", Selected3, () {
-                      setState(() {
-                        Selected3 = true;
-                        Selected1 = Selected2 = Selected4 = Selected5 =
-                            Selected6 = false;
-                      });
-                    }),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          Selected1 = false;
+                          Selected2 = false;
+                          Selected3 = true;
+                          Selected4 = false;
+                          Selected5 = false;
+                          Selected6 = false;
+                        });
+                      },
+                      child: Container(
+                        width: 70.w,
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: Selected3
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "42",
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(width: 10.w),
-                    buildSizeOption("43", Selected4, () {
-                      setState(() {
-                        Selected4 = true;
-                        Selected1 = Selected2 = Selected3 = Selected5 =
-                            Selected6 = false;
-                      });
-                    }),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          Selected1 = false;
+                          Selected2 = false;
+                          Selected3 = false;
+                          Selected4 = true;
+                          Selected5 = false;
+                          Selected6 = false;
+                        });
+                      },
+                      child: Container(
+                        width: 70.w,
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: Selected4
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "43",
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(width: 10.w),
-                    buildSizeOption("44", Selected5, () {
-                      setState(() {
-                        Selected5 = true;
-                        Selected1 = Selected2 = Selected3 = Selected4 =
-                            Selected6 = false;
-                      });
-                    }),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          Selected1 = false;
+                          Selected2 = false;
+                          Selected3 = false;
+                          Selected4 = false;
+                          Selected5 = true;
+                          Selected6 = false;
+                        });
+                      },
+                      child: Container(
+                        width: 70.w,
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: Selected5
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "44",
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(width: 10.w),
-                    buildSizeOption("45", Selected6, () {
-                      setState(() {
-                        Selected6 = true;
-                        Selected1 = Selected2 = Selected3 = Selected4 =
-                            Selected5 = false;
-                      });
-                    }),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          Selected1 = false;
+                          Selected2 = false;
+                          Selected3 = false;
+                          Selected4 = false;
+                          Selected5 = false;
+                          Selected6 = true;
+                        });
+                      },
+                      child: Container(
+                        width: 70.w,
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: Selected6
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 2.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "45",
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -440,7 +673,7 @@ class _detailspageState extends State<detailspage> {
                                 borderRadius: BorderRadius.circular(10.r),
                               ),
                               child: Icon(
-                                Icons.shopping_cart_checkout,
+                                Icons.shopping_cart_checkout_outlined,
                                 color: Colors.white,
                               ),
                             ),
@@ -474,30 +707,6 @@ class _detailspageState extends State<detailspage> {
           ),
         ),
         child: Image.asset(image, fit: BoxFit.cover),
-      ),
-    );
-  }
-
-  Widget buildSizeOption(String size, bool selected, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: 70.w,
-        height: 70.h,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(
-            color: selected ? Colors.black : Colors.transparent,
-            width: 2.w,
-          ),
-        ),
-        child: Center(
-          child: Text(
-            size,
-            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold),
-          ),
-        ),
       ),
     );
   }

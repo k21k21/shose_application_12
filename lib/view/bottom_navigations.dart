@@ -4,7 +4,6 @@ import 'package:shose_application_12/view/card.dart';
 import 'package:shose_application_12/view/favorite_view.dart';
 import 'package:shose_application_12/view/homepage.dart';
 import 'package:shose_application_12/view/profile_view.dart';
-import 'package:shose_application_12/view/setting.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -20,8 +19,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget> _pages = [
     const HomePage(),
     const CartPage(),
-    const FavoriteView(),
-    const SettingsPage(),
+    const SavedView(),
+    const ProfileView(),
   ];
 
   @override
@@ -97,8 +96,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   title: Text('Card', style: TextStyle(fontSize: 12)),
                 ),
                 SalomonBottomBarItem(
-                  icon: Icon(Icons.favorite, size: 24),
-                  title: Text('Favorite', style: TextStyle(fontSize: 12)),
+                  icon: Icon(Icons.bookmark, size: 24),
+                  title: Text('Saved', style: TextStyle(fontSize: 12)),
                 ),
                 SalomonBottomBarItem(
                   icon: Icon(Icons.person, size: 24),

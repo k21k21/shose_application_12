@@ -19,13 +19,14 @@ class FavoriteItem {
   });
 }
 
-class FavoriteView extends StatelessWidget {
-  const FavoriteView({Key? key}) : super(key: key);
+class SavedView extends StatelessWidget {
+  const SavedView({Key? key}) : super(key: key);
 
   // Static list of favorite shoe items with updated images
   final List<FavoriteItem> favoriteItems = const [
     FavoriteItem(
-      imageUrl: 'https://lh5.googleusercontent.com/proxy/srTVSxH0BfetxWH_e4iqnWTcTi-QCUbL7TGnmhQtBl2gW0LuJLlNlzzimWlHNU_mpf4l4EJLh4iDjyaiwjVMsKa_quNip65emqCQxZlo1QFs08ffQ75gsOmdqO619kNsWVopL-BdPUrmHWWQ5QRQKYNHOlm7',
+      imageUrl:
+          'https://lh5.googleusercontent.com/proxy/srTVSxH0BfetxWH_e4iqnWTcTi-QCUbL7TGnmhQtBl2gW0LuJLlNlzzimWlHNU_mpf4l4EJLh4iDjyaiwjVMsKa_quNip65emqCQxZlo1QFs08ffQ75gsOmdqO619kNsWVopL-BdPUrmHWWQ5QRQKYNHOlm7',
       name: 'Nike Air Jordan 1',
       price: 135.00,
       rating: 4.8,
@@ -33,7 +34,8 @@ class FavoriteView extends StatelessWidget {
       stockLeft: 15,
     ),
     FavoriteItem(
-      imageUrl: 'https://images.stockx.com/360/Nike-Air-Force-1-Low-White-07/Images/Nike-Air-Force-1-Low-White-07/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1635275427&h=320',
+      imageUrl:
+          'https://images.stockx.com/360/Nike-Air-Force-1-Low-White-07/Images/Nike-Air-Force-1-Low-White-07/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1635275427&h=320',
       name: 'Nike Air Force 1 Low',
       price: 145.00,
       rating: 4.6,
@@ -41,7 +43,8 @@ class FavoriteView extends StatelessWidget {
       stockLeft: 10,
     ),
     FavoriteItem(
-      imageUrl: 'https://images.stockx.com/360/Nike-Air-Force-1-Low-White-07/Images/Nike-Air-Force-1-Low-White-07/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1635275427&h=320',
+      imageUrl:
+          'https://images.stockx.com/360/Nike-Air-Force-1-Low-White-07/Images/Nike-Air-Force-1-Low-White-07/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1635275427&h=320',
       name: 'Nike Air Force 1 Low',
       price: 105.00,
       rating: 4.5,
@@ -49,7 +52,8 @@ class FavoriteView extends StatelessWidget {
       stockLeft: 12,
     ),
     FavoriteItem(
-      imageUrl: 'https://lh5.googleusercontent.com/proxy/srTVSxH0BfetxWH_e4iqnWTcTi-QCUbL7TGnmhQtBl2gW0LuJLlNlzzimWlHNU_mpf4l4EJLh4iDjyaiwjVMsKa_quNip65emqCQxZlo1QFs08ffQ75gsOmdqO619kNsWVopL-BdPUrmHWWQ5QRQKYNHOlm7',
+      imageUrl:
+          'https://lh5.googleusercontent.com/proxy/srTVSxH0BfetxWH_e4iqnWTcTi-QCUbL7TGnmhQtBl2gW0LuJLlNlzzimWlHNU_mpf4l4EJLh4iDjyaiwjVMsKa_quNip65emqCQxZlo1QFs08ffQ75gsOmdqO619kNsWVopL-BdPUrmHWWQ5QRQKYNHOlm7',
       name: 'Nike Air Force 1 Low',
       price: 94.00,
       rating: 4.7,
@@ -61,12 +65,8 @@ class FavoriteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favorites'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-      ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(title: const Text('Saved')),
       body: GridView.builder(
         padding: const EdgeInsets.all(12.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -115,7 +115,12 @@ class FavoriteView extends StatelessWidget {
                     width: double.infinity,
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) => const Center(
-                        child: Icon(Icons.broken_image, size: 50, color: Colors.grey)),
+                      child: Icon(
+                        Icons.broken_image,
+                        size: 50,
+                        color: Colors.grey,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -127,9 +132,15 @@ class FavoriteView extends StatelessWidget {
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
-                     boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)]
+                    boxShadow: [
+                      BoxShadow(color: Colors.black12, blurRadius: 4),
+                    ],
                   ),
-                  child: const Icon(Icons.favorite, color: Colors.red, size: 22),
+                  child: const Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                    size: 22,
+                  ),
                 ),
               ),
             ],
@@ -140,14 +151,21 @@ class FavoriteView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 4.0,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: Text(
                     '\$${item.price.toStringAsFixed(2)}',
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -162,14 +180,20 @@ class FavoriteView extends StatelessWidget {
                     const SizedBox(width: 4.0),
                     Text(
                       '${item.rating} (${item.reviewCount})',
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 6.0),
                 Text(
                   item.name,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
