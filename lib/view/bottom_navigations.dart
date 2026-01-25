@@ -4,6 +4,7 @@ import 'package:shose_application_12/view/card.dart';
 import 'package:shose_application_12/view/favorite_view.dart';
 import 'package:shose_application_12/view/homepage.dart';
 import 'package:shose_application_12/view/profile_view.dart';
+import 'package:shose_application_12/view/setting.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -18,9 +19,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const BestSellerPage(),
+    const CartPage(),
     const FavoriteView(),
-    const ProfileView(),
+    const SettingsPage(),
   ];
 
   @override

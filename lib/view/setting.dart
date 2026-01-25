@@ -18,15 +18,15 @@ class _SettingsPageState extends State<SettingsPage> {
     final settings = context.watch<AppSettings>();
 
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // التصميم الأساسي للموبايل
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       builder: (context, child) {
         return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor:  Color(0xffF7F7F7),
           body: SafeArea(
             child: Column(
               children: [
-                _appBar(settings),
+                Center(child: _appBar(settings)),
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.symmetric(
@@ -34,15 +34,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       vertical: 16.h,
                     ),
                     children: [
-                      _profileCard(settings),
 
                       SizedBox(height: 20.h),
-                      _sectionTitle(settings.isArabic ? 'الحساب' : 'Account'),
-                      _settingTile(
-                        icon: Icons.person,
-                        title: settings.isArabic ? 'الملف الشخصي' : 'Profile',
-                        onTap: () {},
-                      ),
                       _settingTile(
                         icon: Icons.lock,
                         title: settings.isArabic
@@ -77,29 +70,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         value: settings.isArabic,
                         onChanged: settings.changeLanguage,
                       ),
-
-                      SizedBox(height: 20.h),
-                      _sectionTitle(settings.isArabic ? 'المزيد' : 'More'),
-                      _settingTile(
-                        icon: Icons.privacy_tip,
-                        title: settings.isArabic
-                            ? 'سياسة الخصوصية'
-                            : 'Privacy Policy',
-                        onTap: () {},
-                      ),
-                      _settingTile(
-                        icon: Icons.help_outline,
-                        title: settings.isArabic
-                            ? 'مساعدة ودعم'
-                            : 'Help & Support',
-                        onTap: () {},
-                      ),
-                      _settingTile(
-                        icon: Icons.info_outline,
-                        title: settings.isArabic ? 'عن التطبيق' : 'About App',
-                        onTap: () {},
-                      ),
-
                       SizedBox(height: 30.h),
                       _logoutButton(settings),
                     ],
@@ -116,55 +86,17 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _appBar(AppSettings settings) {
     return Padding(
       padding: EdgeInsets.all(16.w),
-      child: Row(
-        children: [
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            style: ElevatedButton.styleFrom(
-              shape: const CircleBorder(),
-              padding: EdgeInsets.all(8.w),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+      child: SizedBox(
+        width: double.infinity,
+          child:
+          Center(
+            child: Text(
+              settings.isArabic ? 'الإعدادات' : 'Settings',
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
             ),
-            child: Icon(Icons.arrow_back, size: 20.sp),
           ),
-          SizedBox(width: 12.w),
-          Text(
-            settings.isArabic ? 'الإعدادات' : 'Settings',
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
-          ),
-        ],
       ),
-    );
-  }
 
-  Widget _profileCard(AppSettings settings) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white70,
-        borderRadius: BorderRadius.circular(24.r),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(radius: 30.r),
-          SizedBox(width: 12.w),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                settings.isArabic ? 'ملك' : 'Malak',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 4.h),
-              Text(
-                'Malak@gmail.com',
-                style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 
@@ -235,8 +167,9 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       child: Text(
-        settings.isArabic ? 'تسجيل الخروج' : 'Log Out',
+        settings.isArabic ? 'حذف الحساب' : 'Delete Account',
         style: TextStyle(
+
           fontSize: 16.sp,
           color: Colors.white,
           fontWeight: FontWeight.w600,

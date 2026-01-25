@@ -71,7 +71,7 @@ class _detailspageState extends State<detailspage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => BestSellerPage()),
+                    MaterialPageRoute(builder: (_) => CartPage()),
                   );
                 },
                 icon: Icon(

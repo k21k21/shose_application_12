@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shose_application_12/view/bottom_navigations.dart';
 import 'package:shose_application_12/viewmodel/app_settings.dart';
+import 'package:shose_application_12/viewmodel/cart_viewmodel.dart';
 import 'package:shose_application_12/viewmodel/forgotpassword_viewmodel.dart';
 import 'package:shose_application_12/viewmodel/signup_viewmodel.dart';
 import 'view/login.dart';
@@ -20,6 +21,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => SignupViewModel()),
         ChangeNotifierProvider(create: (_) => AppSettings()),
         ChangeNotifierProvider(create: (_) => ForgotPasswordViewModel()),
+        ChangeNotifierProvider(create: (_) => CartViewModel()),
       ],
       child: const MyApp(),
     ),
