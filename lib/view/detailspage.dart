@@ -374,7 +374,7 @@ class _detailspageState extends State<detailspage> {
                         width: 70.w,
                         height: 70.h,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 245, 243, 243),
                           borderRadius: BorderRadius.circular(20.r),
                           border: Border.all(
                             color: Selected1
@@ -410,7 +410,7 @@ class _detailspageState extends State<detailspage> {
                         width: 70.w,
                         height: 70.h,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 245, 243, 243),
                           borderRadius: BorderRadius.circular(20.r),
                           border: Border.all(
                             color: Selected2
@@ -446,7 +446,7 @@ class _detailspageState extends State<detailspage> {
                         width: 70.w,
                         height: 70.h,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 245, 243, 243),
                           borderRadius: BorderRadius.circular(20.r),
                           border: Border.all(
                             color: Selected3
@@ -482,7 +482,7 @@ class _detailspageState extends State<detailspage> {
                         width: 70.w,
                         height: 70.h,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 245, 243, 243),
                           borderRadius: BorderRadius.circular(20.r),
                           border: Border.all(
                             color: Selected4
@@ -518,7 +518,7 @@ class _detailspageState extends State<detailspage> {
                         width: 70.w,
                         height: 70.h,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 245, 243, 243),
                           borderRadius: BorderRadius.circular(20.r),
                           border: Border.all(
                             color: Selected5
@@ -554,7 +554,7 @@ class _detailspageState extends State<detailspage> {
                         width: 70.w,
                         height: 70.h,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 245, 243, 243),
                           borderRadius: BorderRadius.circular(20.r),
                           border: Border.all(
                             color: Selected6

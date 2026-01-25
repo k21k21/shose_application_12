@@ -221,7 +221,7 @@ class _HomePageState extends State<HomePage> {
 
           // PageView Cards
           SizedBox(
-            height: 300.h,
+            height: 400.h,
             child: PageView.builder(
               controller: _pageController,
               itemCount: 5,
@@ -277,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.only(right: 55.w),
+                                        padding: EdgeInsets.only(right: 30.w),
                                         child: Text(
                                           "Travis Scott Shose",
                                           style: TextStyle(

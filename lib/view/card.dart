@@ -24,23 +24,7 @@ class _CartPageState extends State<CartPage> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor:  Color(0xffF7F7F7),
-      appBar: AppBar(
-        backgroundColor: const Color(0xffF7F7F7),
-        elevation: 0,
-        scrolledUnderElevation: 0, // ✨ أهم سطر
-        surfaceTintColor: Colors.transparent, // ✨ يمنع اللون الإضافي
-        centerTitle: true,
-        title: const Text(
-          'My cart',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-        iconTheme: const IconThemeData(color: Colors.black),
-      ),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
 
       body: SafeArea(
         child: Stack(
@@ -65,7 +49,7 @@ class _CartPageState extends State<CartPage> {
                 return Container(
                   padding: const EdgeInsets.only(top: 12),
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 255, 255, 255),
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(40),
                     ),
@@ -74,7 +58,6 @@ class _CartPageState extends State<CartPage> {
                     controller: controller,
                     child: Column(
                       children: [
-
                         Container(
                           height: 5,
                           width: 40,
@@ -87,21 +70,17 @@ class _CartPageState extends State<CartPage> {
 
                         /// Summary
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.06,
+                          ),
                           child: Column(
                             children: [
                               SummaryRow(
                                 'Subtotal',
                                 '\$${vm.subtotal.toStringAsFixed(2)}',
                               ),
-                              SummaryRow(
-                                'Delivery',
-                                '\$${vm.delivery}',
-                              ),
-                              const SummaryRow(
-                                'Discount',
-                                '40%',
-                              ),
+                              SummaryRow('Delivery', '\$${vm.delivery}'),
+                              const SummaryRow('Discount', '40%'),
                             ],
                           ),
                         ),
@@ -166,9 +145,7 @@ class _CartPageState extends State<CartPage> {
                     });
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Success Checkout"),
-                      ),
+                      const SnackBar(content: Text("Success Checkout")),
                     );
 
                     Future.delayed(Duration(seconds: 1), () {
@@ -187,13 +164,10 @@ class _CartPageState extends State<CartPage> {
                   width: 60.w,
                   height: 60.h,
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: const Color.fromARGB(255, 0, 0, 0),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: Icon(
-                    Icons.payments_outlined,
-                    color: Colors.white,
-                  ),
+                  child: Icon(Icons.payments_outlined, color: Colors.white),
                 ),
               ),
             ),
@@ -202,5 +176,4 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
-
 }
