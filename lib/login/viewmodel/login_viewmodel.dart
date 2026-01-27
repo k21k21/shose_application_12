@@ -43,48 +43,21 @@ class LoginViewModel extends ChangeNotifier {
     _setLoading(false);
   }
 
-  Future<void> signInWithGoogle(
+  Future<UserCredential> signInWithGoogle(
     BuildContext context,
     BottomNavigation bottomNavigation,
   ) async {
-    _setLoading(true); // 1️⃣ شغّل اللودينج
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
-<<<<<<< Updated upstream:lib/login/viewmodel/login_viewmodel.dart
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
     );
-=======
-      // لو المستخدم لغى تسجيل الدخول
-      if (googleUser == null) {
-        _setLoading(false);
-        return;
-      }
->>>>>>> Stashed changes:lib/viewmodel/login_viewmodel.dart
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      // 2️⃣ بعد النجاح روحي للهوم
-      bottomNavigation;
-      (context);
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Google login failed')));
-    }
-
-    _setLoading(false); // 3️⃣ وقف اللودينج
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   @override

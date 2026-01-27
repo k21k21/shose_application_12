@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shose_application_12/login/view/login.dart';
 import 'package:shose_application_12/view/bottom_navigations.dart';
 import '../viewmodel/signup_viewmodel.dart';
-import 'login.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
