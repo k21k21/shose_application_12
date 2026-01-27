@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../Moddel/cart_item.dart';
+import '../../model/cart_item.dart';
 
-import '../viewmodel/cart_viewmodel.dart';
+import '../../viewmodel/cart_viewmodel.dart';
 
 class QuantityButton extends StatefulWidget {
   final CartItem item;

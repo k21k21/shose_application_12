@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Moddel/cart_item.dart';
+import '../model/cart_item.dart';
 
 
 class CartViewModel extends ChangeNotifier {

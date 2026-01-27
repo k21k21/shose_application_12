@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shose_application_12/view/bottom_navigations.dart';
 
-import '../viewmodel/forgotpassword_viewmodel.dart';
+import '../../forgotpassword/viewmodel/forgotpassword_viewmodel.dart';
 import '../viewmodel/login_viewmodel.dart';
-import 'forgotpassword.dart';
-import 'signup.dart';
+import '../../forgotpassword/view/forgotpassword.dart';
+import '../../signup/view/signup.dart';
 
 class TopLeftBigCurveClipper extends CustomClipper<Path> {
   @override
