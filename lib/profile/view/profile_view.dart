@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shose_application_12/save/view/favorite_view.dart';
 import 'package:shose_application_12/login/view/login.dart';
 import 'package:shose_application_12/setting/view/setting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
