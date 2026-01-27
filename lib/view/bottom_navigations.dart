@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:shose_application_12/view/card.dart';
-import 'package:shose_application_12/view/favorite_view.dart';
-import 'package:shose_application_12/view/homepage.dart';
-import 'package:shose_application_12/view/profile_view.dart';
+import 'package:shose_application_12/card/view/card.dart';
+import 'package:shose_application_12/save/view/favorite_view.dart';
+import 'package:shose_application_12/home/view/homepage.dart';
+import 'package:shose_application_12/profile/view/profile_view.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});

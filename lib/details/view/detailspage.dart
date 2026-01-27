@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:shose_application_12/view/card.dart';
+import 'package:shose_application_12/card/view/card.dart';
 
 class detailspage extends StatefulWidget {
   const detailspage({super.key});

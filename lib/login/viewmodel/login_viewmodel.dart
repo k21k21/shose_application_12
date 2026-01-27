@@ -43,22 +43,59 @@ class LoginViewModel extends ChangeNotifier {
     _setLoading(false);
   }
 
-  Future<UserCredential> signInWithGoogle(
-    BuildContext context,
-    BottomNavigation bottomNavigation,
-  ) async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<void> signInWithGoogle(
+      BuildContext context,
+      BottomNavigation bottomNavigation,
+      ) async {
+    _setLoading(true); // 1️⃣ شغّل اللودينج
 
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    try {
+      final GoogleSignInAccount? googleUser =
+      await GoogleSignIn().signIn();
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // لو المستخدم لغى تسجيل الدخول
+      if (googleUser == null) {
+        _setLoading(false);
+        return;
+      }
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // 2️⃣ بعد النجاح روحي للهوم
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => BottomNavigation()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Google login failed')),
+      );
+    }
+
+    _setLoading(false); // 3️⃣ وقف اللودينج
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   void dispose() {

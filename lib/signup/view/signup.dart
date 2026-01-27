@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shose_application_12/view/bottom_navigations.dart';
 import '../viewmodel/signup_viewmodel.dart';
 
-import 'login.dart';
+import '../../login/view/login.dart';
 
 class signup extends StatefulWidget {
   const signup({super.key});

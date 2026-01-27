@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/cart_viewmodel.dart';
-import '../widgets/cart_itemcard.dart';
-import '../widgets/summary_row.dart';
+import 'widgets/cart_itemcard.dart';
+import 'widgets/summary_row.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CartPage extends StatefulWidget {

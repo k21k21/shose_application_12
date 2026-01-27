@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shose_application_12/view/detailspage.dart';
-import 'package:shose_application_12/view/notification_view.dart';
-import 'package:shose_application_12/view/search.dart';
+import 'package:shose_application_12/details/view/detailspage.dart';
+import 'package:shose_application_12/notification/view/notification_view.dart';
+import 'package:shose_application_12/search/view/search.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
