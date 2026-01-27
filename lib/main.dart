@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shose_application_12/SplashScreen/SplashScreen.dart';
 import 'package:shose_application_12/view/bottom_navigations.dart';
 import 'package:shose_application_12/setting/viewmodel/app_settings.dart';
 import 'package:shose_application_12/card/viewmodel/cart_viewmodel.dart';
@@ -33,9 +35,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AuthGate(),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      builder: (context, child) {
+        return MaterialApp(debugShowCheckedModeBanner: false, home: child);
+      },
+      child: const SplashScreen(),
     );
   }
 }

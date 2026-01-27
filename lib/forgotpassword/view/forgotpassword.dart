@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../viewmodel/forgotpassword_viewmodel.dart';
 import '../../login/view/login.dart';
 
@@ -8,33 +9,41 @@ class ForgotPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Initialize ScreenUtil for responsive sizing
+    ScreenUtil.init(
+      context,
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+    );
+
     final vm = context.watch<ForgotPasswordViewModel>();
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/backgraound.avif'),
-                fit: BoxFit.cover,
-              ),
+          // 🔹 Background
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/backgraound.png',
+              fit: BoxFit.cover,
             ),
           ),
+
+          // 🔹 White Container
           Positioned(
-            top: 180,
+            top: 180.h,
             left: 0,
             right: 0,
             child: Center(
               child: ClipPath(
                 clipper: TopLeftBigCurveClipper(),
                 child: Container(
-                  height: 900,
-                  width: 500,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 40,
-                    horizontal: 20,
+                  width: 1.sw,
+                  height: 0.9.sh,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 40.h,
+                    horizontal: 20.w,
                   ),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
@@ -45,8 +54,8 @@ class ForgotPasswordPage extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
-                        blurRadius: 15,
-                        offset: const Offset(0, 5),
+                        blurRadius: 15.r,
+                        offset: Offset(0, 5.h),
                       ),
                     ],
                   ),
@@ -56,63 +65,60 @@ class ForgotPasswordPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        const Text(
+                        Text(
                           "Forgot Password",
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 30.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.black87,
                             fontFamily: "PTSerif-Bold",
                           ),
                         ),
-                        const SizedBox(height: 40),
-                        Center(
-                          child: _field(
-                            controller: vm.emailController,
-                            hint: "Enter your email",
-                            icon: Icons.email,
-                            validator: (v) {
-                              if (v == null || v.isEmpty)
-                                return "Enter your email";
-                              if (!v.contains('@')) return "Invalid email";
-                              return null;
-                            },
-                          ),
+                        SizedBox(height: 40.h),
+                        _field(
+                          controller: vm.emailController,
+                          hint: "Enter your email",
+                          icon: Icons.email,
+                          validator: (v) {
+                            if (v == null || v.isEmpty)
+                              return "Enter your email";
+                            if (!v.contains('@')) return "Invalid email";
+                            return null;
+                          },
                         ),
-                        const SizedBox(height: 30),
+                        SizedBox(height: 30.h),
                         MaterialButton(
                           onPressed: vm.isLoading
                               ? null
                               : () => vm.resetPassword(context),
                           color: Colors.black,
-                          minWidth: double.infinity,
-                          height: 50,
+                          minWidth: 1.sw,
+                          height: 50.h,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(25.r),
                           ),
                           child: vm.isLoading
                               ? const CircularProgressIndicator(
                                   color: Colors.white,
                                 )
-                              : const Text(
+                              : Text(
                                   "Send Reset Link",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 20,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: "PTSerif-Bold",
                                   ),
                                 ),
                         ),
-
-                        const SizedBox(height: 30),
+                        SizedBox(height: 30.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Remember your password?",
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 13.sp,
                                 fontFamily: "PTSerif-Bold",
                               ),
                             ),
@@ -120,10 +126,10 @@ class ForgotPasswordPage extends StatelessWidget {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text(
+                              child: Text(
                                 "Login",
                                 style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.bold,
                                   decoration: TextDecoration.underline,
                                   color: Colors.black,
@@ -143,14 +149,14 @@ class ForgotPasswordPage extends StatelessWidget {
 
           // 🔹 Logo
           Positioned(
-            top: 40,
-            left: MediaQuery.of(context).size.width / 2 - 50,
+            top: 40.h,
+            left: 0.5.sw - 50.w,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(30.r),
               child: Image.asset(
                 "assets/images/logo_app.jpg",
-                height: 90,
-                width: 100,
+                height: 90.h,
+                width: 100.w,
                 fit: BoxFit.cover,
               ),
             ),
@@ -168,16 +174,16 @@ class ForgotPasswordPage extends StatelessWidget {
     IconData? icon,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 240, 240, 240),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
-              blurRadius: 5,
-              offset: const Offset(0, 3),
+              blurRadius: 5.r,
+              offset: Offset(0, 3.h),
             ),
           ],
         ),
@@ -190,12 +196,12 @@ class ForgotPasswordPage extends StatelessWidget {
             prefixIcon: icon != null ? Icon(icon, color: Colors.black) : null,
             border: InputBorder.none,
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               borderSide: const BorderSide(color: Colors.black, width: 1),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 18,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 20.w,
+              vertical: 18.h,
             ),
           ),
         ),

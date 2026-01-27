@@ -12,11 +12,6 @@ class ProfileView extends StatefulWidget {
   _ProfileViewState createState() => _ProfileViewState();
 }
 
-bool isSelected1 = false;
-bool isSelected2 = false;
-bool isSelected3 = false;
-bool isSelected4 = false;
-
 class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
@@ -50,7 +45,7 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 20.h),
                       Center(
                         child: Text(
                           'Jane Cooper',
@@ -74,43 +69,6 @@ class _ProfileViewState extends State<ProfileView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const SavedView(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 12.h,
-                                  horizontal: 22.w,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade800.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(15.r),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.bookmark,
-                                      color: Colors.white,
-                                      size: 28.sp,
-                                    ),
-                                    SizedBox(height: 5.h),
-                                    Text(
-                                      'Saved',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
                             InkWell(
                               onTap: () {},
                               child: Container(
@@ -218,14 +176,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SizedBox(height: 5.h),
                     InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const SettingsPage(),
-                          ),
-                        );
-                      },
+                      onTap: () {},
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 20.w,
@@ -251,14 +202,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SizedBox(height: 5.h),
                     InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const SettingsPage(),
-                          ),
-                        );
-                      },
+                      onTap: () {},
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 20.w,
@@ -284,13 +228,11 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SizedBox(height: 5.h),
                     InkWell(
-                      onTap: ()async  {
+                      onTap: () async {
                         await FirebaseAuth.instance.signOut();
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => loginpage(),
-                          ),
+                          MaterialPageRoute(builder: (context) => loginpage()),
                         );
                       },
                       child: Padding(

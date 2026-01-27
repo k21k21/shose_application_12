@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shose_application_12/view/bottom_navigations.dart';
 import '../viewmodel/signup_viewmodel.dart';
+import 'login.dart';
 
-import '../../login/view/login.dart';
-
-class signup extends StatefulWidget {
-  const signup({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<signup> createState() => _signupState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _signupState extends State<signup> {
+class _SignupPageState extends State<SignupPage> {
   bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Initialize ScreenUtil for responsive sizing
+    ScreenUtil.init(
+      context,
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+    );
+
     final vm = context.watch<SignupViewModel>();
 
     return Scaffold(
@@ -24,29 +31,27 @@ class _signupState extends State<signup> {
       body: Stack(
         children: [
           // 🔹 Background
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/backgraound.avif'),
-                fit: BoxFit.cover,
-              ),
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/backgraound.png',
+              fit: BoxFit.cover,
             ),
           ),
 
           // 🔹 White Container
           Positioned(
-            top: 170,
+            top: 170.h,
             left: 0,
             right: 0,
             child: Center(
               child: ClipPath(
                 clipper: TopLeftBigCurveClipper(),
                 child: Container(
-                  width: 500,
-                  height: 900,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 40,
-                    horizontal: 20,
+                  width: 1.sw,
+                  height: 0.9.sh,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 40.h,
+                    horizontal: 20.w,
                   ),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
@@ -57,8 +62,8 @@ class _signupState extends State<signup> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
-                        blurRadius: 15,
-                        offset: const Offset(0, 5),
+                        blurRadius: 15.r,
+                        offset: Offset(0, 5.h),
                       ),
                     ],
                   ),
@@ -70,18 +75,18 @@ class _signupState extends State<signup> {
                       key: vm.formKey,
                       child: Column(
                         children: [
-                          const SizedBox(height: 30),
+                          SizedBox(height: 30.h),
 
-                          const Text(
+                          Text(
                             "SignUp",
                             style: TextStyle(
-                              fontSize: 50,
+                              fontSize: 50.sp,
                               fontWeight: FontWeight.bold,
                               fontFamily: "PTSerif-Bold",
                             ),
                           ),
 
-                          const SizedBox(height: 40),
+                          SizedBox(height: 40.h),
 
                           _field(
                             controller: vm.emailCon,
@@ -98,7 +103,7 @@ class _signupState extends State<signup> {
                             },
                           ),
 
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.h),
 
                           _field(
                             controller: vm.passwordCon,
@@ -116,7 +121,7 @@ class _signupState extends State<signup> {
                             },
                           ),
 
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.h),
 
                           _field(
                             controller: vm.confirmPasswordCon,
@@ -131,7 +136,7 @@ class _signupState extends State<signup> {
                             },
                           ),
 
-                          const SizedBox(height: 15),
+                          SizedBox(height: 15.h),
 
                           // 🔹 Signup Button
                           MaterialButton(
@@ -139,36 +144,36 @@ class _signupState extends State<signup> {
                                 ? null
                                 : () => vm.signup(context, BottomNavigation()),
                             color: Colors.black,
-                            minWidth: 250,
-                            height: 50,
+                            minWidth: 250.w,
+                            height: 50.h,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: vm.isLoading
                                 ? const CircularProgressIndicator(
                                     color: Colors.white,
                                   )
-                                : const Text(
+                                : Text(
                                     "Create Account",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 25,
+                                      fontSize: 25.sp,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: "PTSerif-Bold",
                                     ),
                                   ),
                           ),
 
-                          const SizedBox(height: 10),
+                          SizedBox(height: 10.h),
 
                           // 🔹 Back to Login
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
+                              Text(
                                 "Already have an account?",
                                 style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 13.sp,
                                   fontFamily: "PTSerif-Bold",
                                 ),
                               ),
@@ -181,10 +186,10 @@ class _signupState extends State<signup> {
                                     ),
                                   );
                                 },
-                                child: const Text(
+                                child: Text(
                                   "Login",
                                   style: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 13.sp,
                                     fontFamily: "PTSerif-Bold",
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
@@ -205,14 +210,14 @@ class _signupState extends State<signup> {
 
           // 🔹 Logo
           Positioned(
-            top: 40,
-            left: MediaQuery.of(context).size.width / 2 - 50,
+            top: 40.h,
+            left: 0.5.sw - 50.w,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(30.r),
               child: Image.asset(
                 "assets/images/logo_app.jpg",
-                height: 90,
-                width: 100,
+                height: 90.h,
+                width: 100.w,
                 fit: BoxFit.cover,
               ),
             ),
@@ -230,16 +235,15 @@ class _signupState extends State<signup> {
     IconData? icon,
   }) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.w),
       child: Container(
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 235, 235, 235),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: TextFormField(
           controller: controller,
           obscureText: obscure ? _obscurePassword : false,
-
           validator: validator,
           decoration: InputDecoration(
             hintText: hint,
@@ -262,16 +266,16 @@ class _signupState extends State<signup> {
             filled: true,
             fillColor: Colors.grey.shade200,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               borderSide: const BorderSide(color: Colors.black, width: 1),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 25,
-              vertical: 18,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 25.w,
+              vertical: 18.h,
             ),
           ),
         ),

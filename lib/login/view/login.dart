@@ -55,7 +55,7 @@ class _loginpageState extends State<loginpage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/backgraound.avif'),
+                image: AssetImage('assets/images/backgraound.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -227,7 +227,7 @@ class _loginpageState extends State<loginpage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => const signup(),
+                                      builder: (_) => const SignupPage(),
                                     ),
                                   );
                                 },
