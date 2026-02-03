@@ -35,6 +35,33 @@ class loginpage extends StatefulWidget {
 class _loginpageState extends State<loginpage> {
   final _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
+  bool hasUppercase = false;
+  bool hasLowercase = false;
+  bool hasNumber = false;
+  bool hasMinLength = false;
+  bool hasSpecialChar = false;
+
+  void _checkPassword(String value) {
+    setState(() {
+      hasUppercase = value.contains(RegExp(r'[A-Z]'));
+      hasLowercase = value.contains(RegExp(r'[a-z]'));
+      hasNumber = value.contains(RegExp(r'[0-9]'));
+      hasMinLength = value.length >= 6;
+      hasSpecialChar = value.contains(RegExp(r'[@$%#]'));
+    });
+  }
+
+  bool get isPasswordValid =>
+      hasUppercase && hasLowercase && hasNumber && hasMinLength && hasSpecialChar;
+
+  String _passwordHintText() {
+    if (!hasUppercase) return "Password should contain a capital letter";
+    if (!hasLowercase) return "Password should contain a small letter";
+    if (!hasNumber) return "Password should contain a number";
+    if (!hasSpecialChar) return "Password should contain a Special characters";
+    if (!hasMinLength) return "Password should be at least 6 characters";
+    return "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +152,7 @@ class _loginpageState extends State<loginpage> {
                             hint: "Password",
                             icon: Icons.lock,
                             obscure: true,
+                            onChanged: _checkPassword,
                             validator: (v) {
                               if (v == null || v.isEmpty)
                                 return "Enter your password";
@@ -132,6 +160,20 @@ class _loginpageState extends State<loginpage> {
                               return null;
                             },
                           ),
+                          if (!isPasswordValid && vm.passwordCon.text.isNotEmpty)
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  _passwordHintText(),
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Colors.redAccent,
+                                  ),
+                                ),
+                              ),
+                            ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
@@ -277,6 +319,7 @@ class _loginpageState extends State<loginpage> {
     bool obscure = false,
     String? Function(String?)? validator,
     IconData? icon,
+    Function(String)? onChanged,
   }) {
     return Padding(
       padding: EdgeInsets.all(8.w),
@@ -284,6 +327,7 @@ class _loginpageState extends State<loginpage> {
         controller: controller,
         obscureText: obscure ? _obscurePassword : false,
         validator: validator,
+        onChanged: onChanged,
         decoration: InputDecoration(
           hintText: hint,
           prefixIcon: icon != null ? Icon(icon, color: Colors.black) : null,
