@@ -18,7 +18,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget> _pages = [
     const HomePage(),
     const CartPage(),
-    const SavedView(),
+    const ShoeLibraryScreen(),
     const ProfileView(),
   ];
 

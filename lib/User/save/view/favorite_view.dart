@@ -66,22 +66,19 @@ class SavedView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          padding: const EdgeInsets.all(12.0),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // 2 items per row
-            childAspectRatio: 0.65, // Adjust this ratio to fit your content
-            crossAxisSpacing: 12.0, // Horizontal spacing
-            mainAxisSpacing: 12.0, // Vertical spacing
-          ),
-          itemCount: favoriteItems.length,
-          itemBuilder: (context, index) {
-            return _buildFavoriteItemCard(favoriteItems[index]);
-          },
+      appBar: AppBar(title: const Text('Saved')),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(12.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // 2 items per row
+          childAspectRatio: 0.65, // Adjust this ratio to fit your content
+          crossAxisSpacing: 12.0, // Horizontal spacing
+          mainAxisSpacing: 12.0, // Vertical spacing
         ),
+        itemCount: favoriteItems.length,
+        itemBuilder: (context, index) {
+          return _buildFavoriteItemCard(favoriteItems[index]);
+        },
       ),
     );
   }
