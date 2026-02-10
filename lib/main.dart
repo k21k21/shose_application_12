@@ -3,14 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shose_application_12/SplashScreen/SplashScreen.dart';
-import 'package:shose_application_12/view/bottom_navigations.dart';
-import 'package:shose_application_12/setting/viewmodel/app_settings.dart';
-import 'package:shose_application_12/card/viewmodel/cart_viewmodel.dart';
-import 'package:shose_application_12/forgotpassword/viewmodel/forgotpassword_viewmodel.dart';
-import 'package:shose_application_12/signup/viewmodel/signup_viewmodel.dart';
-import 'login/view/login.dart';
-import 'login/viewmodel/login_viewmodel.dart';
+import 'package:shose_application_12/User/BottomNavigation/bottom_navigations.dart';
+import 'package:shose_application_12/User/SplashScreen/SplashScreen.dart';
+import 'package:shose_application_12/User/setting/viewmodel/app_settings.dart';
+import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
+import 'package:shose_application_12/User/forgotpassword/viewmodel/forgotpassword_viewmodel.dart';
+import 'package:shose_application_12/User/signup/viewmodel/signup_viewmodel.dart';
+import 'User/login/view/login.dart';
+import 'User/login/viewmodel/login_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

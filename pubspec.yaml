@@ -40,6 +40,7 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   flutter_screenutil: ^5.9.3
   salomon_bottom_bar: ^3.3.2
+  
 
 
 
@@ -50,13 +51,21 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^2.3.0
   flutter_launcher_icons: ^0.12.0
   flutter_lints: ^6.0.0
+
+flutter_native_splash:
+  color: "#000000"  
+  image: assets/images/logo_app.jpg
+  android: true
+  ios: true
 
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/logo_app-removebg-preview (1).png"
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
