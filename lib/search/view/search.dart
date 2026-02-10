@@ -27,44 +27,32 @@ class SearchPage extends StatelessWidget {
                   icon: Icon(Icons.arrow_back, size: 20, color: Colors.black),
                 ),
               ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    'Search',
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
             ),
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            backgroundColor:  Color.fromARGB(255, 255, 255, 255),
             body: SafeArea(
               child: Column(
                 children: [
                   _searchBar(vm),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 20.h),
                   Expanded(
                     child: vm.filteredShoes.isEmpty
                         ? const _EmptyState()
                         : ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            itemCount: vm.filteredShoes.length,
-                            itemBuilder: (context, index) {
-                              final shoe = vm.filteredShoes[index];
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 16.h),
-                                child: SearchShoeCard(
-                                  title: shoe['title'],
-                                  subtitle: shoe['subtitle'],
-                                  price: shoe['price'],
-                                  image: shoe['image'],
-                                ),
-                              );
-                            },
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      itemCount: vm.filteredShoes.length,
+                      itemBuilder: (context, index) {
+                        final shoe = vm.filteredShoes[index];
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 16.h),
+                          child: SearchShoeCard(
+                            title: shoe['title'],
+                            subtitle: shoe['subtitle'],
+                            price: shoe['price'],
+                            image: shoe['image'],
                           ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -78,24 +66,35 @@ class SearchPage extends StatelessWidget {
   Widget _searchBar(SearchViewModel vm) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: TextField(
-        controller: vm.searchController,
-        onChanged: vm.onSearch,
-        decoration: InputDecoration(
-          hintText: 'Search shoes...',
-          prefixIcon: const Icon(Icons.search),
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.r),
-            borderSide: BorderSide.none,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.12),
+              blurRadius: 10,
+              offset:  Offset(0, 4),
+            ),
+          ],
+        ),
+        child: TextField(
+          controller: vm.searchController,
+          onChanged: vm.onSearch,
+          decoration: InputDecoration(
+            hintText: 'Search ',
+            prefixIcon:  Icon(Icons.search),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.r),
+              borderSide: BorderSide.none,
+            ),
           ),
         ),
       ),
     );
   }
 }
-
 /* ================= Shoe Card ================= */
 
 class SearchShoeCard extends StatelessWidget {
@@ -117,7 +116,7 @@ class SearchShoeCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xffBEE7E8),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
@@ -126,7 +125,7 @@ class SearchShoeCard extends StatelessWidget {
             height: 70.h,
             width: 70.w,
             decoration: BoxDecoration(
-              color: const Color(0xffEFE6FF),
+              color:  Colors.white,
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: ClipRRect(
