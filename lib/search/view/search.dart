@@ -15,20 +15,17 @@ class SearchPage extends StatelessWidget {
         minTextAdapt: true,
         builder: (context, child) {
           final vm = context.watch<SearchViewModel>();
+
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
-              leading: Padding(
-                padding: const EdgeInsets.all(10),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back, size: 20, color: Colors.black),
-                ),
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.pop(context),
               ),
             ),
-            backgroundColor:  Color.fromARGB(255, 255, 255, 255),
             body: SafeArea(
               child: Column(
                 children: [
@@ -73,7 +70,7 @@ class SearchPage extends StatelessWidget {
             BoxShadow(
               color: Colors.black.withOpacity(0.12),
               blurRadius: 10,
-              offset:  Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -81,8 +78,8 @@ class SearchPage extends StatelessWidget {
           controller: vm.searchController,
           onChanged: vm.onSearch,
           decoration: InputDecoration(
-            hintText: 'Search ',
-            prefixIcon:  Icon(Icons.search),
+            hintText: 'Search shoes...',
+            prefixIcon: const Icon(Icons.search),
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(
@@ -95,6 +92,7 @@ class SearchPage extends StatelessWidget {
     );
   }
 }
+
 /* ================= Shoe Card ================= */
 
 class SearchShoeCard extends StatelessWidget {
@@ -116,7 +114,7 @@ class SearchShoeCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Color(0xffBEE7E8),
+        color: const Color(0xffBEE7E8),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
@@ -125,7 +123,7 @@ class SearchShoeCard extends StatelessWidget {
             height: 70.h,
             width: 70.w,
             decoration: BoxDecoration(
-              color:  Colors.white,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: ClipRRect(
@@ -148,14 +146,20 @@ class SearchShoeCard extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   subtitle,
-                  style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12.sp,
+                  ),
                 ),
               ],
             ),
           ),
           Text(
             '\$$price',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.sp,
+            ),
           ),
         ],
       ),
