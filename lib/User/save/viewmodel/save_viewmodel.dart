@@ -4,7 +4,12 @@ class Shoe {
   final String price;
   final String imageUrl;
 
-  Shoe({required this.id, required this.name, required this.price, required this.imageUrl});
+  Shoe({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.imageUrl,
+  });
 }
 
 class ShoeCollection {
