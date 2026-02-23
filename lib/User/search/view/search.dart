@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -15,56 +16,67 @@ class SearchPage extends StatelessWidget {
         minTextAdapt: true,
         builder: (context, child) {
           final vm = context.watch<SearchViewModel>();
+
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              leading: Padding(
-                padding: const EdgeInsets.all(10),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back, size: 20, color: Colors.black),
-                ),
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    'Search',
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            backgroundColor: Colors.white,
+
             body: SafeArea(
               child: Column(
                 children: [
-                  _searchBar(vm),
                   SizedBox(height: 10.h),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 1.w),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.grey.shade600,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Row(
+                      children: [
+
+
+                        SizedBox(width: 7.w),
+                        Expanded(
+                          child: _searchBar(vm),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 24.h),
+
                   Expanded(
-                    child: vm.filteredShoes.isEmpty
+                    child: vm.isLoadingData
+                        ? const Center(child: CircularProgressIndicator())
+                        : vm.filteredShoes.isEmpty
                         ? const _EmptyState()
                         : ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            itemCount: vm.filteredShoes.length,
-                            itemBuilder: (context, index) {
-                              final shoe = vm.filteredShoes[index];
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 16.h),
-                                child: SearchShoeCard(
-                                  title: shoe['title'],
-                                  subtitle: shoe['subtitle'],
-                                  price: shoe['price'],
-                                  image: shoe['image'],
-                                ),
-                              );
-                            },
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      itemCount: vm.filteredShoes.length,
+                      itemBuilder: (context, index) {
+                        final shoe = vm.filteredShoes[index];
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 14.h),
+                          child: SearchShoeCard(
+                            title: shoe['title'],
+                            subtitle: shoe['subtitle'],
+                            price: shoe['price'],
+                            image: shoe['image'],
                           ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -78,25 +90,37 @@ class SearchPage extends StatelessWidget {
   Widget _searchBar(SearchViewModel vm) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: TextField(
-        controller: vm.searchController,
-        onChanged: vm.onSearch,
-        decoration: InputDecoration(
-          hintText: 'Search shoes...',
-          prefixIcon: const Icon(Icons.search),
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.r),
-            borderSide: BorderSide.none,
+      child: Container(
+        height: 52.h,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: TextField(
+          controller: vm.searchController,
+          onChanged: vm.onSearch,
+          decoration: InputDecoration(
+            hintText: 'Search shoes...',
+            prefixIcon: Icon(Icons.search, color: Colors.grey.shade600),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.r),
+              borderSide: BorderSide.none,
+            ),
+            filled: true,
+            fillColor: Colors.white,
           ),
         ),
       ),
     );
   }
 }
-
-/* ================= Shoe Card ================= */
 
 class SearchShoeCard extends StatelessWidget {
   final String title;
@@ -114,57 +138,89 @@ class SearchShoeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 70.h,
-            width: 70.w,
-            decoration: BoxDecoration(
-              color: const Color(0xffEFE6FF),
-              borderRadius: BorderRadius.circular(16.r),
+    Widget shoeImage;
+
+    if (image.startsWith('http')) {
+      shoeImage = Image.network(image, fit: BoxFit.cover);
+    } else if (image.isNotEmpty) {
+      try {
+        shoeImage = Image.memory(base64Decode(image), fit: BoxFit.cover);
+      } catch (_) {
+        shoeImage = const Icon(Icons.image_not_supported);
+      }
+    } else {
+      shoeImage = const Icon(Icons.image_not_supported);
+    }
+
+    return InkWell(
+      onTap: (){},
+      child: Container(
+        padding: EdgeInsets.all(14.w),
+        decoration: BoxDecoration(
+          color: const Color(0xffBEE7E8),
+          borderRadius: BorderRadius.circular(18.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.r),
-              child: Image.asset(image, fit: BoxFit.cover),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: 72.h,
+              width: 72.w,
+              decoration: BoxDecoration(
+                color: const Color(0xffF3F3F3),
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16.r),
+                child: shoeImage,
+              ),
             ),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
+            SizedBox(width: 14.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14.sp,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  subtitle,
-                  style: TextStyle(color: Colors.grey, fontSize: 12.sp),
-                ),
-              ],
+                  SizedBox(height: 6.h),
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            '\$$price',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
-          ),
-        ],
+            Text(
+              '\$$price',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14.sp,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
-/* ================= Empty State ================= */
 
 class _EmptyState extends StatelessWidget {
   const _EmptyState();
@@ -175,11 +231,14 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.search_off, size: 80.h, color: Colors.grey),
+          Icon(Icons.search_off, size: 72.h, color: Colors.grey.shade400),
           SizedBox(height: 12.h),
           Text(
             'No results found',
-            style: TextStyle(color: Colors.grey, fontSize: 16.sp),
+            style: TextStyle(
+              color: Colors.grey.shade600,
+              fontSize: 16.sp,
+            ),
           ),
         ],
       ),

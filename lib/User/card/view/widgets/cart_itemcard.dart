@@ -32,7 +32,7 @@ class _CartItemCardState extends State<CartItemCard> {
       margin: EdgeInsets.only(bottom: width * 0.04),
       padding: EdgeInsets.all(width * 0.03),
       decoration: BoxDecoration(
-        color: Color(0xffBFDAD3),
+        color: Color(0xffBEE7E8),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(

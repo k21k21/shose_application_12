@@ -306,45 +306,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Row(
                 children: [
-                  InkWell(
-                    onTap: () async {
-                      setState(() {
-                        selected1 = false;
-                        selected2 = false;
-                        selected3 = false;
-                        selected4 = false;
-                        selected5 = false;
-                        selected6 = false;
-                        selected7 = true;
-                        fetchAllProducts();
-                      });
-                      // await fetchBrandProductsall(brand: '', collection: '');
-                    },
-                    child: Container(
-                      width: 60.w,
-                      height: 70.h,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 245, 243, 243),
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(
-                          color: selected7 ? Colors.black : Colors.transparent,
-                          width: 2.w,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "All",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.sp,
-                            fontFamily: "Roboto_Condensed",
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
+
                   InkWell(
                     onTap: () async {
                       setState(() {
