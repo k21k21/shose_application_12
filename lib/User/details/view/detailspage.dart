@@ -2,7 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:shose_application_12/User/card/model/cart_item.dart';
 import 'package:shose_application_12/User/card/view/card.dart';
+import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
+import 'package:shose_application_12/service/savecollections.dart';
+import 'package:shose_application_12/User/card/model/cart_data.dart';
+import 'package:shose_application_12/User/card/model/cart_item.dart';
 
 class detailspage extends StatefulWidget {
   final Color bgColor;
@@ -21,6 +27,19 @@ class detailspage extends StatefulWidget {
 }
 
 class _detailspageState extends State<detailspage> {
+  List<Map<String, dynamic>> titles = [];
+  bool isLoadingData = false;
+  final SaveService _saveService = SaveService();
+
+  Future<void> gitttitle() async {
+    setState(() => isLoadingData = true);
+
+    List<String> fetchedTitles = await _saveService.getTitles();
+    titles = fetchedTitles.map((t) => {'title': t}).toList();
+
+    setState(() => isLoadingData = false);
+  }
+
   late int selectedIndex;
   bool isSelected1 = false;
   bool isSelected2 = false;
@@ -453,25 +472,125 @@ class _detailspageState extends State<detailspage> {
               child: Row(
                 children: [
                   Container(
-                    width: 60.w,
-                    height: 60.h,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 0, 0, 0),
                       borderRadius: BorderRadius.circular(10.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                          blurRadius: 15,
+                          spreadRadius: 2,
+                          offset: Offset(0, 6),
+                        ),
+                      ],
                     ),
                     child: IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20.r),
+                            ),
+                          ),
+                          builder: (context) {
+                            return Container(
+                              padding: EdgeInsets.all(20.w),
+
+                              height: 400.h,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Choose Your Collection",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Expanded(
+                                    child: FutureBuilder<List<String>>(
+                                      future: _saveService.getTitles(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return Center(
+                                            child: Text(
+                                              "Error loading collections",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (!snapshot.hasData ||
+                                            snapshot.data!.isEmpty) {
+                                          return Center(
+                                            child: Text(
+                                              "No collections found",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          final collections = snapshot.data!;
+                                          return ListView.builder(
+                                            itemCount: collections.length,
+                                            itemBuilder: (context, index) {
+                                              String collection =
+                                                  collections[index];
+                                              return ListTile(
+                                                title: Text(
+                                                  collection,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                onTap: () async {
+                                                  Navigator.pop(context);
+                                                  setState(
+                                                    () => isLoadingData = true,
+                                                  );
+                                                  titles = collections
+                                                      .map((t) => {'title': t})
+                                                      .toList();
+                                                  setState(
+                                                    () => isLoadingData = false,
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        fixedSize: Size(60.w, 60.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
                       icon: Icon(
-                        isFavorite
-                            ? Icons.bookmark
-                            : Icons.bookmark_add_outlined,
+                        Icons.bookmark_add_outlined,
                         color: widget.bgColor,
                         size: 30.sp,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          isFavorite = !isFavorite;
-                        });
-                      },
                     ),
                   ),
                   SizedBox(width: 10.w),
@@ -486,7 +605,22 @@ class _detailspageState extends State<detailspage> {
                           decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 0, 0, 0),
                             borderRadius: BorderRadius.circular(20.r),
+
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromARGB(
+                                  255,
+                                  0,
+                                  0,
+                                  0,
+                                ).withOpacity(0.4),
+                                blurRadius: 15,
+                                spreadRadius: 2,
+                                offset: Offset(0, 6),
+                              ),
+                            ],
                           ),
+
                           alignment: Alignment.center,
                           child: Text(
                             _completed ? "Done!" : "Add to cart",
@@ -515,9 +649,53 @@ class _detailspageState extends State<detailspage> {
                                   _completed = true;
                                 });
 
+                                // ✅ هنا الإضافة للكارت
+                                final vm = Provider.of<CartViewModel>(
+                                  context,
+                                  listen: false,
+                                );
+
+                                vm.addToCart(
+                                  CartItem(
+                                    name: selectedProduct['name'] ?? "",
+                                    brand: selectedProduct['namebrand'] ?? "",
+                                    price:
+                                        double.tryParse(
+                                          selectedProduct['price'].toString(),
+                                        ) ??
+                                        0,
+                                    img: selectedProduct['img'] ?? "",
+                                  ),
+                                );
+
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Action Completed!"),
+                                  SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.done_outlined,
+                                          color: Colors.white,
+                                          size: 20.sp,
+                                        ),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
+                                          child: Text(
+                                            "Added to cart!",
+                                            style: TextStyle(
+                                              fontFamily: 'Nunito',
+                                              color: Colors.white,
+                                              fontSize: 14.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    backgroundColor: Colors.green,
+                                    behavior: SnackBarBehavior.floating,
+                                    margin: EdgeInsets.all(16.w),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
                                   ),
                                 );
 

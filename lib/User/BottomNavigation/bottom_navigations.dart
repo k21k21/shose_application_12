@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:shose_application_12/User/card/model/cart_item.dart';
 import 'package:shose_application_12/User/card/view/card.dart';
 import 'package:shose_application_12/User/save/view/favorite_view.dart';
 import 'package:shose_application_12/User/home/view/homepage.dart';
@@ -16,7 +17,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    const HomePage(),
+    HomePage(
+      item: CartItem(name: '', brand: '', price: 0, img: ''),
+    ),
     const CartPage(),
     const ShoeLibraryScreen(),
     const ProfileView(),
@@ -33,9 +36,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
   }
 
   void _onBottomNavItemTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    if (!mounted) return;
+    {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
   }
 
   @override
@@ -54,9 +60,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 20,
-                  offset: const Offset(0, 6),
+                  color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                  offset: Offset(0, 6),
                 ),
               ],
             ),

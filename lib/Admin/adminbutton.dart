@@ -19,6 +19,7 @@ class _buttonadminState extends State<buttonadmin> {
           icon: const Icon(Icons.exit_to_app),
           onPressed: () async {
             await FirebaseAuth.instance.signOut();
+            if (!mounted) return;
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => loginpage()),

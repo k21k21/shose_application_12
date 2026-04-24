@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../service/allservice.dart';
+import 'package:shose_application_12/service/allservice.dart';
 
 class SearchViewModel extends ChangeNotifier {
   final TextEditingController searchController = TextEditingController();
@@ -52,8 +52,11 @@ class SearchViewModel extends ChangeNotifier {
       filteredShoes = List.from(allShoes);
     } else {
       filteredShoes = allShoes
-          .where((shoe) =>
-          shoe['title'].toString().toLowerCase().contains(value.toLowerCase()))
+          .where(
+            (shoe) => shoe['title'].toString().toLowerCase().contains(
+              value.toLowerCase(),
+            ),
+          )
           .toList();
     }
     filteredShoes.shuffle();

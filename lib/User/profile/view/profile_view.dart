@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
 import 'package:shose_application_12/User/login/view/login.dart';
+import 'package:shose_application_12/User/login/viewmodel/login_viewmodel.dart';
 import 'package:shose_application_12/User/setting/view/setting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -228,9 +231,14 @@ class _ProfileViewState extends State<ProfileView> {
                     SizedBox(height: 5.h),
                     InkWell(
                       onTap: () async {
+                        context.read<LoginViewModel>().emailCon.clear();
+                        context.read<LoginViewModel>().passwordCon.clear();
+
                         await FirebaseAuth.instance.signOut();
+                        if (!mounted) return;
                         Navigator.pushReplacement(
                           context,
+
                           MaterialPageRoute(builder: (context) => loginpage()),
                         );
                       },

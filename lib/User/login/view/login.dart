@@ -2,7 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:shose_application_12/Admin/adminbutton.dart';
+
+import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
+
 import 'package:shose_application_12/User/login/widgets/googlespinner.dart';
 import 'package:shose_application_12/User/BottomNavigation/bottom_navigations.dart';
 import '../../forgotpassword/viewmodel/forgotpassword_viewmodel.dart';
@@ -160,78 +164,163 @@ class _loginpageState extends State<loginpage> {
                           ),
                           SizedBox(height: 13.h),
 
-                          MaterialButton(
-                            onPressed: () async {
-                              if (!_formKey.currentState!.validate()) return;
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(
+                                    255,
+                                    0,
+                                    0,
+                                    0,
+                                  ).withOpacity(0.4),
+                                  blurRadius: 15,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 6),
+                                ),
+                              ],
+                            ),
+                            child: MaterialButton(
+                              onPressed: () async {
+                                if (!_formKey.currentState!.validate()) return;
 
-                              setState(() => vm.isLoading = true);
+                                setState(() => vm.isLoading = true);
 
-                              try {
-                                // تسجيل الدخول مباشرة عن طريق FirebaseAuth
-                                await FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                                      email: vm.emailCon.text.trim(),
-                                      password: vm.passwordCon.text.trim(),
-                                    );
+                                try {
+                                  await FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                        email: vm.emailCon.text.trim(),
+                                        password: vm.passwordCon.text.trim(),
+                                      );
 
-                                // خد الانستانس الحالي من FirebaseAuth
-                                final user = FirebaseAuth.instance.currentUser;
+                                  if (!mounted) return; // 🔥 مهم جدًا
 
-                                if (user != null) {
-                                  if (user.email == 'userr@admin.com') {
-                                    // صفحة الادمن
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const buttonadmin(),
+                                  final user =
+                                      FirebaseAuth.instance.currentUser;
+
+                                  if (user != null) {
+                                    if (user.email == 'userr@admin.com') {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const buttonadmin(),
+                                        ),
+                                      );
+                                    } else {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChangeNotifierProvider(
+                                                create: (_) => CartViewModel(
+                                                  userEmail: user.uid,
+                                                ),
+                                                child: BottomNavigation(),
+                                              ),
+                                        ),
+                                        (route) => false,
+
+                                        // 🔥 يمسح كل حاجة
+                                      );
+                                    }
+                                  }
+                                } on FirebaseAuthException catch (e) {
+                                  if (!mounted) return; // 🔥 الحل هنا
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.error,
+                                            color: Colors.white,
+                                            size: 20.sp,
+                                          ),
+                                          SizedBox(width: 12.w),
+                                          Expanded(
+                                            child: Text(
+                                              "Login failed",
+                                              style: TextStyle(
+                                                fontFamily: 'Nunito',
+                                                color: Colors.white,
+                                                fontSize: 14.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  } else {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            BottomNavigation(),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                      margin: EdgeInsets.all(16.w),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
+                                        ),
                                       ),
-                                    );
+                                    ),
+                                  );
+                                } catch (e) {
+                                  if (!mounted) return; // 🔥 وهنا
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.error,
+                                            color: Colors.white,
+                                            size: 20.sp,
+                                          ),
+                                          SizedBox(width: 12.w),
+                                          Expanded(
+                                            child: Text(
+                                              "Incorrect password",
+                                              style: TextStyle(
+                                                fontFamily: 'Nunito',
+                                                color: Colors.white,
+                                                fontSize: 14.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                      margin: EdgeInsets.all(16.w),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } finally {
+                                  if (mounted) {
+                                    setState(() => vm.isLoading = false);
                                   }
                                 }
-                              } on FirebaseAuthException catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Login failed: ${e.message}"),
-                                  ),
-                                );
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Error: $e")),
-                                );
-                              } finally {
-                                if (mounted)
-                                  setState(() => vm.isLoading = false);
-                              }
-                            },
-                            color: Colors.black,
-                            minWidth: 250.w,
-                            height: 50.h,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "PTSerif-Bold",
+                              },
+                              color: const Color.fromARGB(255, 0, 0, 0),
+                              minWidth: 250.w,
+                              height: 50.h,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
 
                           SizedBox(height: 10.h),
 
-                          // ✅ Google Button
                           MaterialButton(
                             onPressed: () async {
                               if (_isLoadingGoogle) return;
@@ -245,14 +334,43 @@ class _loginpageState extends State<loginpage> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => BottomNavigation(),
+                                      builder: (_) => ChangeNotifierProvider(
+                                        create: (_) =>
+                                            CartViewModel(userEmail: user.uid),
+                                        child: BottomNavigation(),
+                                      ),
                                     ),
                                   );
                                 }
                               } catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Google sign in failed'),
+                                  SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.error,
+                                          color: Colors.white,
+                                          size: 20.sp,
+                                        ),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
+                                          child: Text(
+                                            "Google sign in failed",
+                                            style: TextStyle(
+                                              fontFamily: 'Nunito',
+                                              color: Colors.white,
+                                              fontSize: 14.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    backgroundColor: Colors.red,
+                                    behavior: SnackBarBehavior.floating,
+                                    margin: EdgeInsets.all(16.w),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
                                   ),
                                 );
                               } finally {

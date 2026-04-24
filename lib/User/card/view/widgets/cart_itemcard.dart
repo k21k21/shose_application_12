@@ -1,7 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../model/cart_item.dart';
-
 import 'Quantity Button.dart';
 
 class CartItemCard extends StatefulWidget {
@@ -12,16 +12,6 @@ class CartItemCard extends StatefulWidget {
   @override
   State<CartItemCard> createState() => _CartItemCardState();
 }
-
-final List<Color> cardColorssss = [
-  // Original
-  Color(0xffF2C6C6),
-
-  Color(0xffBFDAD3),
-  Color(0xffDDE9F8),
-
-  //--------------------------------------//
-];
 
 class _CartItemCardState extends State<CartItemCard> {
   @override
@@ -48,7 +38,17 @@ class _CartItemCardState extends State<CartItemCard> {
               angle: -0.6,
               child: Padding(
                 padding: const EdgeInsets.only(right: 8, bottom: 10),
-                child: Image.asset(widget.item.image),
+
+                child: Image.memory(
+                  base64Decode(
+                    widget.item.img.contains(',')
+                        ? widget.item.img.split(',').last
+                        : widget.item.img,
+                  ),
+                  width: 160.w,
+                  height: 200.h,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
@@ -58,24 +58,18 @@ class _CartItemCardState extends State<CartItemCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.item.title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                  ),
+                  widget.item.name,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  widget.item.subtitle,
+                  widget.item.brand,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 70, 70, 70),
                   ),
                 ),
                 Text(
-                  '\$${widget.item.price}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                  ),
+                  '${widget.item.price} EGP',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
               ],
             ),

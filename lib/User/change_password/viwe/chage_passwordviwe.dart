@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../viewmodel/chage_passwordviewmodel.dart';
+
 class TopLeftBigCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -43,12 +44,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool hasSpecialChar = false;
 
   void _checkPassword(String value) {
-    setState(() {
-      hasUppercase = value.contains(RegExp(r'[A-Z]'));
-      hasNumber = value.contains(RegExp(r'[0-9]'));
-      hasMinLength = value.length >= 6;
-      hasSpecialChar = value.contains(RegExp(r'[@$%#]'));
-    });
+    if (!mounted) return;
+    {
+      setState(() {
+        hasUppercase = value.contains(RegExp(r'[A-Z]'));
+        hasNumber = value.contains(RegExp(r'[0-9]'));
+        hasMinLength = value.length >= 6;
+        hasSpecialChar = value.contains(RegExp(r'[@$%#]'));
+      });
+    }
   }
 
   String _passwordHint() {
@@ -96,26 +100,27 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         width: 1.sw,
                         height: 0.9.sh,
                         padding: EdgeInsets.symmetric(
-                            vertical: 40.h, horizontal: 20.w),
+                          vertical: 40.h,
+                          horizontal: 20.w,
+                        ),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                              colors: [Colors.white, Colors.white70],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight),
+                            colors: [Colors.white, Colors.white70],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 15.r,
-                                offset: Offset(0, 5.h))
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 15.r,
+                              offset: Offset(0, 5.h),
+                            ),
                           ],
                         ),
                         child: SingleChildScrollView(
                           padding: EdgeInsets.only(
-                              bottom:
-                              MediaQuery
-                                  .of(context)
-                                  .viewInsets
-                                  .bottom),
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
                           child: Form(
                             key: _formKey,
                             child: Column(
@@ -124,9 +129,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 Text(
                                   "Change Password",
                                   style: TextStyle(
-                                      fontSize: 35.sp,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "PTSerif-Bold"),
+                                    fontSize: 35.sp,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "PTSerif-Bold",
+                                  ),
                                 ),
                                 SizedBox(height: 30.h),
                                 _field(
@@ -155,7 +161,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     newController.text.isNotEmpty)
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 20.w, vertical: 4.h),
+                                      horizontal: 20.w,
+                                      vertical: 4.h,
+                                    ),
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
@@ -178,7 +186,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     });
                                   },
                                   validator: (v) {
-                                    if (v != newController.text) return "Passwords do not match";
+                                    if (v != newController.text)
+                                      return "Passwords do not match";
                                     return null;
                                   },
                                 ),
@@ -186,47 +195,83 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 vm.isLoading
                                     ? const CircularProgressIndicator()
                                     : SizedBox(
-                                  width: double.infinity,
-                                  height: 50.h,
-                                  child: MaterialButton(
-                                    onPressed: () async {
-                                      if (_formKey.currentState!
-                                          .validate()) {
-                                        final success =
-                                        await vm.changePassword(
-                                          currentPassword:
-                                          currentController.text,
-                                          newPassword:
-                                          newController.text,
-                                        );
+                                        width: double.infinity,
+                                        height: 50.h,
+                                        child: MaterialButton(
+                                          onPressed: () async {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              final success = await vm
+                                                  .changePassword(
+                                                    currentPassword:
+                                                        currentController.text,
+                                                    newPassword:
+                                                        newController.text,
+                                                  );
 
-                                        if (success && context.mounted) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                  "Password changed successfully"),
+                                              if (success && context.mounted) {
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.done_outlined,
+                                                          color: Colors.white,
+                                                          size: 20.sp,
+                                                        ),
+                                                        SizedBox(width: 12.w),
+                                                        Expanded(
+                                                          child: Text(
+                                                            "Password changed successfully",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Nunito',
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14.sp,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    margin: EdgeInsets.all(
+                                                      16.w,
+                                                    ),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12.r,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                );
+                                                Navigator.pop(context);
+                                              }
+                                            }
+                                          },
+                                          color: Colors.black,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              20.r,
                                             ),
-                                          );
-                                          Navigator.pop(context);
-                                        }
-                                      }
-                                    },
-                                    color: Colors.black,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(20.r),
-                                    ),
-                                    child: Text(
-                                      "Change Password",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PTSerif-Bold"),
-                                    ),
-                                  ),
-                                ),
+                                          ),
+                                          child: Text(
+                                            "Change Password",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PTSerif-Bold",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                 if (vm.errorMessage != null) ...[
                                   SizedBox(height: 12.h),
                                   Text(
@@ -236,7 +281,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                       color: Colors.redAccent,
                                     ),
                                   ),
-                                ]
+                                ],
                               ],
                             ),
                           ),
@@ -293,8 +338,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             borderRadius: BorderRadius.circular(12.r),
             borderSide: const BorderSide(color: Colors.black, width: 1),
           ),
-          contentPadding:
-          EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 18.h,
+          ),
           suffixIcon: IconButton(
             icon: Icon(
               obscureText ? Icons.visibility_off : Icons.visibility,

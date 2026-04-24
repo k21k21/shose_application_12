@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shose_application_12/User/BottomNavigation/bottom_navigations.dart';
 import 'package:shose_application_12/User/SplashScreen/SplashScreen.dart';
-import 'package:shose_application_12/User/setting/viewmodel/app_settings.dart';
+
 import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
+
+import 'package:shose_application_12/User/setting/viewmodel/app_settings.dart';
 import 'package:shose_application_12/User/forgotpassword/viewmodel/forgotpassword_viewmodel.dart';
 import 'package:shose_application_12/User/signup/viewmodel/signup_viewmodel.dart';
 import 'User/login/view/login.dart';
@@ -23,7 +25,6 @@ void main() async {
         ChangeNotifierProvider(create: (_) => SignupViewModel()),
         ChangeNotifierProvider(create: (_) => AppSettings()),
         ChangeNotifierProvider(create: (_) => ForgotPasswordViewModel()),
-        ChangeNotifierProvider(create: (_) => CartViewModel()),
       ],
       child: const MyApp(),
     ),
@@ -39,9 +40,11 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       builder: (context, child) {
-        return MaterialApp(debugShowCheckedModeBanner: false, home: child);
+        return const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: AuthGate(),
+        );
       },
-      child: const SplashScreen(),
     );
   }
 }
@@ -55,14 +58,34 @@ class AuthGate extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold();
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
 
-        if (snapshot.hasData) {
-          return BottomNavigation();
+        final user = snapshot.data;
+
+        /// 🔥 لو logged in
+        if (user != null) {
+          return ChangeNotifierProvider(
+            create: (_) {
+              final vm = CartViewModel(userEmail: user.email!);
+              vm.initCart(); // 🔥 هنا بالظبط
+              return vm;
+            },
+            child: BottomNavigation(),
+          );
         }
 
-        return loginpage();
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => LoginViewModel()),
+            ChangeNotifierProvider(create: (_) => SignupViewModel()),
+            ChangeNotifierProvider(create: (_) => AppSettings()),
+            ChangeNotifierProvider(create: (_) => ForgotPasswordViewModel()),
+          ],
+          child: loginpage(),
+        );
       },
     );
   }

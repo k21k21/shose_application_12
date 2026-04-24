@@ -1,62 +1,80 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../model/cart_item.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shose_application_12/User/card/model/cart_item.dart';
 
 class CartViewModel extends ChangeNotifier {
-  final List<CartItem> items = [
-    CartItem(
-      image: 'assets/images/s-l1200-removebg-preview.png',
-      title: 'Xbox series X',
-      subtitle: '1TB',
-      price: 570,
-    ),
-    CartItem(
-      image: 'assets/images/s-l1200-removebg-preview.png',
-      title: 'Wireless Controller',
-      subtitle: 'Blue',
-      price: 77,
-    ),
-    CartItem(
-      image: 'assets/images/s-l1200-removebg-preview.png',
-      title: 'Razer Kaira Pro',
-      subtitle: 'Green',
-      price: 153,
-    ),
-    CartItem(
-      image: 'assets/images/s-l1200-removebg-preview.png',
-      title: 'Wireless Controller',
-      subtitle: 'Blue',
-      price: 77,
-    ),
-    CartItem(
-      image: 'assets/images/s-l1200-removebg-preview.png',
-      title: 'Razer Kaira Pro',
-      subtitle: 'Green',
-      price: 153,
-    ),
-  ];
+  List<CartItem> cartItems = [];
+  double delivery = 50;
+  String userEmail;
 
-  double get subtotal =>
-      items.fold(0, (sum, item) => sum + item.price * item.quantity);
+  CartViewModel({required this.userEmail});
 
-  double get discount => subtotal * 0.4;
-  double get delivery => 5;
-  double get total => subtotal - discount + delivery;
+  void addToCart(CartItem item) {
+    cartItems.add(item);
+    saveCart();
+    notifyListeners();
+  }
 
   void increaseQty(CartItem item) {
     item.quantity++;
+    saveCart();
     notifyListeners();
   }
 
   void decreaseQty(CartItem item) {
     if (item.quantity > 1) {
       item.quantity--;
+      saveCart();
       notifyListeners();
     }
   }
 
   void removeItem(CartItem item) {
-    items.remove(item);
+    cartItems.remove(item);
+    saveCart();
     notifyListeners();
+  }
+
+  double get price =>
+      cartItems.fold(0, (total, item) => total + item.price * item.quantity);
+
+  Future<void> initCart() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getStringList('cart_$userEmail');
+
+    if (data != null) {
+      cartItems = data.map((e) => CartItem.fromJson(jsonDecode(e))).toList();
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> saveCart() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> data = cartItems.map((e) => jsonEncode(e.toJson())).toList();
+
+    await prefs.setStringList('cart_$userEmail', data);
+  }
+
+  bool _isLoaded = true;
+  Future<void> loadCart() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final data = prefs.getStringList('cart_$userEmail');
+
+    if (data != null) {
+      cartItems = data.map((e) => CartItem.fromJson(jsonDecode(e))).toList();
+    } else {
+      cartItems = [];
+    }
+
+    notifyListeners();
+  }
+
+  void setUser(String newUserId) {
+    userEmail = newUserId;
+    cartItems = []; // 🔥 امسح القديم
+    loadCart();
   }
 }

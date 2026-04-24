@@ -140,29 +140,48 @@ class _SignupPageState extends State<SignupPage> {
                           SizedBox(height: 15.h),
 
                           // 🔹 Signup Button
-                          MaterialButton(
-                            onPressed: vm.isLoading
-                                ? null
-                                : () => vm.signup(context, BottomNavigation()),
-                            color: Colors.black,
-                            minWidth: 250.w,
-                            height: 50.h,
-                            shape: RoundedRectangleBorder(
+                          Container(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(
+                                    255,
+                                    0,
+                                    0,
+                                    0,
+                                  ).withOpacity(0.4),
+                                  blurRadius: 15,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 6),
+                                ),
+                              ],
                             ),
-                            child: vm.isLoading
-                                ? const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
-                                : Text(
-                                    "Create Account",
-                                    style: TextStyle(
+                            child: MaterialButton(
+                              onPressed: vm.isLoading
+                                  ? null
+                                  : () =>
+                                        vm.signup(context, BottomNavigation()),
+                              color: Colors.black,
+                              minWidth: 250.w,
+                              height: 50.h,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: vm.isLoading
+                                  ? const CircularProgressIndicator(
                                       color: Colors.white,
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "PTSerif-Bold",
+                                    )
+                                  : Text(
+                                      "Create Account",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25.sp,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "PTSerif-Bold",
+                                      ),
                                     ),
-                                  ),
+                            ),
                           ),
 
                           SizedBox(height: 10.h),
@@ -180,11 +199,12 @@ class _SignupPageState extends State<SignupPage> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushReplacement(
+                                  Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => const loginpage(),
                                     ),
+                                    (route) => false, // 🔥 يمسح كل حاجة
                                   );
                                 },
                                 child: Text(

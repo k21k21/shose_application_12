@@ -1,40 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:shose_application_12/User/card/model/cart_item.dart';
+import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
 import 'package:shose_application_12/User/details/view/detailspage.dart';
 import 'package:shose_application_12/User/notification/view/notification_view.dart';
 import 'package:shose_application_12/User/search/view/search.dart';
-import 'package:shose_application_12/User/service/LouisVuitton_service.dart';
-import 'package:shose_application_12/User/service/adidas_service.dart';
-import 'package:shose_application_12/User/service/allservice.dart';
-import 'package:shose_application_12/User/service/asics_service.dart';
-import 'package:shose_application_12/User/service/bape_service.dart';
-import 'package:shose_application_12/User/service/crocs_service.dart';
-import 'package:shose_application_12/User/service/newbalance_service.dart';
-import 'package:shose_application_12/User/service/nike_service.dart';
+import 'package:shose_application_12/service/LouisVuitton_service.dart';
+import 'package:shose_application_12/service/adidas_service.dart';
+import 'package:shose_application_12/service/allservice.dart';
+import 'package:shose_application_12/service/asics_service.dart';
+import 'package:shose_application_12/service/bape_service.dart';
+import 'package:shose_application_12/service/crocs_service.dart';
+import 'package:shose_application_12/service/newbalance_service.dart';
+import 'package:shose_application_12/service/nike_service.dart';
 import 'dart:convert';
-import 'package:shose_application_12/User/service/timberland_service.dart';
+import 'package:shose_application_12/service/timberland_service.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
+  const HomePage({super.key, required this.item});
+  final CartItem item;
   @override
   State<HomePage> createState() => _HomePageState();
 }
-
-bool selected1 = false;
-bool selected2 = false;
-bool selected3 = false;
-bool selected4 = false;
-bool selected5 = false;
-bool selected6 = false;
-bool selected7 = false;
-bool selected8 = false;
-bool selected9 = false;
 
 String selectedBrand = "";
 String selectedCollection = "";
 
 class _HomePageState extends State<HomePage> {
+  bool selected1 = false;
+  bool selected2 = false;
+  bool selected3 = false;
+  bool selected4 = false;
+  bool selected5 = false;
+  bool selected6 = false;
+  bool selected7 = false;
+  bool selected8 = false;
+  bool selected9 = false;
   List<Map<String, dynamic>> products = [];
   bool isLoadingData = false;
 
@@ -44,11 +47,13 @@ class _HomePageState extends State<HomePage> {
     required String brand,
     required String collection,
   }) async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
     products = await _firestoreService.getBrandProducts(
       brandDoc: brand,
       collectionName: collection,
     );
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
@@ -58,11 +63,13 @@ class _HomePageState extends State<HomePage> {
     required String brand,
     required String collection,
   }) async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
     products = await _firestoreServiceadidas.getBrandProductsadidas(
       brandDoc: brand,
       collectionName: collection,
     );
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
@@ -72,11 +79,13 @@ class _HomePageState extends State<HomePage> {
     required String brand,
     required String collection,
   }) async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
     products = await _asicsService.getBrandProductsasics(
       brandDoc: brand,
       collectionName: collection,
     );
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
@@ -86,11 +95,13 @@ class _HomePageState extends State<HomePage> {
     required String brand,
     required String collection,
   }) async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
     products = await _crocsService.getBrandProductscrocs(
       brandDoc: brand,
       collectionName: collection,
     );
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
@@ -100,11 +111,13 @@ class _HomePageState extends State<HomePage> {
     required String brand,
     required String collection,
   }) async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
     products = await _newbalanceService.getBrandProductsnewbalance(
       brandDoc: brand,
       collectionName: collection,
     );
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
@@ -114,8 +127,10 @@ class _HomePageState extends State<HomePage> {
     required String brand,
     required String collection,
   }) async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
     products = await _nikeService.getNikeProductsByCollection(collection);
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
@@ -125,11 +140,13 @@ class _HomePageState extends State<HomePage> {
     required String brand,
     required String collection,
   }) async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
     products = await _louisvuittonService.getBrandProductLouisvuitton(
       brandDoc: brand,
       collectionName: collection,
     );
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
@@ -139,22 +156,24 @@ class _HomePageState extends State<HomePage> {
     required String brand,
     required String collection,
   }) async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
     products = await _bapeService.getBrandProductsbape(
       brandDoc: brand,
       collectionName: collection,
     );
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
   // all_______________________________________________________________
   final Allservice _allservice = Allservice();
 
-  Future<void> fetchAllProducts() async {
+  Future<void> fetchRandomProductsall() async {
+    if (!mounted) return;
     setState(() => isLoadingData = true);
-
     products = await _allservice.getAllShoes();
-
+    if (!mounted) return;
     setState(() => isLoadingData = false);
   }
 
@@ -176,8 +195,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageController.addListener(() {
-      _currentPage = _pageController.page!;
+      if (!mounted) return;
+
+      setState(() {
+        _currentPage = _pageController.page ?? 0;
+      });
     });
+    fetchRandomProductsall();
   }
 
   @override
@@ -235,7 +259,16 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(20.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                      blurRadius: 12,
+                      spreadRadius: 2,
+                      offset: Offset(6, 6),
+                    ),
+                  ],
                 ),
+
                 child: Row(
                   children: [
                     Column(
@@ -288,12 +321,25 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     Spacer(),
-                    Image.asset(
-                      "assets/images/s-l1200-removebg-preview.png",
-                      width: 160.w,
-                      height: 200.h,
-                      fit: BoxFit.contain,
-                    ),
+                    products.isNotEmpty
+                        ? Image.memory(
+                            base64Decode(
+                              products[Random().nextInt(products.length)]['img']
+                                  .toString()
+                                  .split(',')
+                                  .last,
+                            ),
+                            width: 160.w,
+                            height: 200.h,
+                            fit: BoxFit.contain,
+                          )
+                        : Image.asset(
+                            "assets/images/s-l1200-removebg-preview.png",
+
+                            width: 160.w,
+                            height: 200.h,
+                            fit: BoxFit.contain,
+                          ),
                   ],
                 ),
               ),
@@ -306,7 +352,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Row(
                 children: [
-
+                  SizedBox(width: 10),
                   InkWell(
                     onTap: () async {
                       setState(() {
@@ -454,6 +500,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           onTap: () async {
                                             Navigator.pop(context);
+                                            if (!mounted) return;
                                             setState(
                                               () => isLoadingData = true,
                                             );
@@ -461,6 +508,7 @@ class _HomePageState extends State<HomePage> {
                                                 .getNikeProductsByCollection(
                                                   collection,
                                                 );
+                                            if (!mounted) return;
                                             setState(
                                               () => isLoadingData = false,
                                             );
@@ -757,11 +805,24 @@ class _HomePageState extends State<HomePage> {
                                           width: 55.w,
                                           height: 80.h,
                                           decoration: BoxDecoration(
-                                            color: Colors.black,
                                             borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(25.r),
                                               topRight: Radius.circular(25.r),
                                             ),
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  0,
+                                                  0,
+                                                  0,
+                                                ).withOpacity(0.4),
+                                                blurRadius: 15,
+                                                spreadRadius: 2,
+                                                offset: Offset(0, 6),
+                                              ),
+                                            ],
                                           ),
                                           child: Stack(
                                             children: [
@@ -785,18 +846,110 @@ class _HomePageState extends State<HomePage> {
                                                         ),
                                                   ),
                                                   child: IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(
-                                                      Icons.add,
-                                                      color:
-                                                          const Color.fromARGB(
-                                                            255,
-                                                            0,
-                                                            0,
-                                                            0,
+                                                    onPressed: () {
+                                                      final selectedProduct =
+                                                          products[index];
+
+                                                      final vm =
+                                                          Provider.of<
+                                                            CartViewModel
+                                                          >(
+                                                            context,
+                                                            listen: false,
+                                                          );
+
+                                                      // 🔍 ندور هل المنتج موجود قبل كده
+                                                      int existingIndex = vm
+                                                          .cartItems
+                                                          .indexWhere(
+                                                            (e) =>
+                                                                e.name ==
+                                                                    selectedProduct['name'] &&
+                                                                e.brand ==
+                                                                    selectedProduct['namebrand'],
+                                                          );
+
+                                                      if (existingIndex != -1) {
+                                                        // 🔥 موجود → نزود الكمية
+                                                        vm
+                                                            .cartItems[existingIndex]
+                                                            .quantity++;
+                                                      } else {
+                                                        // 🔥 جديد → نضيفه
+                                                        vm.cartItems.add(
+                                                          CartItem(
+                                                            name:
+                                                                selectedProduct['name'] ??
+                                                                "",
+                                                            brand:
+                                                                selectedProduct['namebrand'] ??
+                                                                "",
+                                                            price:
+                                                                double.tryParse(
+                                                                  selectedProduct['price']
+                                                                      .toString(),
+                                                                ) ??
+                                                                0,
+                                                            img:
+                                                                selectedProduct['img'] ??
+                                                                "",
                                                           ),
-                                                      size: 24.sp,
-                                                    ),
+                                                        );
+                                                      }
+
+                                                      vm.saveCart(); // 🔥 مهم علشان يتحفظ
+                                                      vm.notifyListeners(); // 🔥 يحدث UI
+
+                                                      ScaffoldMessenger.of(
+                                                        context,
+                                                      ).showSnackBar(
+                                                        SnackBar(
+                                                          content: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .done_outlined,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 20.sp,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 12.w,
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  "Added to cart!",
+                                                                  style: TextStyle(
+                                                                    fontFamily:
+                                                                        'Nunito',
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        14.sp,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                16.w,
+                                                              ),
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  12.r,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    icon: Icon(Icons.add),
                                                   ),
                                                 ),
                                               ),

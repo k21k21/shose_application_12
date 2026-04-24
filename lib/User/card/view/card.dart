@@ -17,6 +17,15 @@ class _CartPageState extends State<CartPage> {
   late double width;
 
   @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      context.read<CartViewModel>().loadCart();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final vm = context.watch<CartViewModel>();
     final width = MediaQuery.of(context).size.width;
@@ -31,9 +40,9 @@ class _CartPageState extends State<CartPage> {
               padding: EdgeInsets.only(bottom: 150.h),
               child: ListView.builder(
                 padding: EdgeInsets.all(width * 0.04),
-                itemCount: vm.items.length,
+                itemCount: vm.cartItems.length,
                 itemBuilder: (context, index) {
-                  return CartItemCard(item: vm.items[index]);
+                  return CartItemCard(item: vm.cartItems[index]);
                 },
               ),
             ),
@@ -75,7 +84,7 @@ class _CartPageState extends State<CartPage> {
                             children: [
                               SummaryRow(
                                 'Subtotal',
-                                '\$${vm.subtotal.toStringAsFixed(2)}',
+                                '\$${vm.price.toStringAsFixed(2)}',
                               ),
                               SummaryRow('Delivery', '\$${vm.delivery}'),
                               const SummaryRow('Discount', '40%'),

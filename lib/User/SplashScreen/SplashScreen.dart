@@ -18,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _opacityAnimation;
 
   @override
+  @override
   void initState() {
     super.initState();
 
@@ -38,7 +39,9 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Timer(const Duration(milliseconds: 2500), () {
+    Future.delayed(const Duration(milliseconds: 2500), () {
+      if (!mounted) return; // 🔥 يحميك من الكراش
+
       Navigator.of(
         context,
       ).pushReplacement(MaterialPageRoute(builder: (_) => AuthGate()));

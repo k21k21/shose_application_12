@@ -40,7 +40,10 @@ class _QuantityButtonState extends State<QuantityButton> {
                 } else {
                   vm.decreaseQty(widget.item);
                 }
-                setState(() {});
+                if (!mounted) return;
+                {
+                  setState(() {});
+                }
               },
             ),
           ),
