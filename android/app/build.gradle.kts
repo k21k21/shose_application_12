@@ -18,15 +18,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    // الطريقة المضمونة لضبط إصدار الـ Target في الـ kts
-    afterEvaluate {
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-    }
-
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.shose_application_12"
