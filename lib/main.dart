@@ -1,13 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shose_application_12/Admin/adminbutton.dart';
 import 'package:shose_application_12/User/BottomNavigation/bottom_navigations.dart';
 import 'package:shose_application_12/User/SplashScreen/SplashScreen.dart';
-
 import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
-
 import 'package:shose_application_12/User/setting/viewmodel/app_settings.dart';
 import 'package:shose_application_12/User/forgotpassword/viewmodel/forgotpassword_viewmodel.dart';
 import 'package:shose_application_12/User/signup/viewmodel/signup_viewmodel.dart';
@@ -21,6 +21,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => CartViewModel(userEmail: '')),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
         ChangeNotifierProvider(create: (_) => SignupViewModel()),
         ChangeNotifierProvider(create: (_) => AppSettings()),
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: AuthGate(),
+          home: SplashScreen(),
         );
       },
     );
@@ -65,27 +66,47 @@ class AuthGate extends StatelessWidget {
 
         final user = snapshot.data;
 
-        /// 🔥 لو logged in
         if (user != null) {
-          return ChangeNotifierProvider(
-            create: (_) {
-              final vm = CartViewModel(userEmail: user.email!);
-              vm.initCart(); // 🔥 هنا بالظبط
-              return vm;
+          return FutureBuilder<DocumentSnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .get(),
+            builder: (context, roleSnapshot) {
+              if (roleSnapshot.connectionState == ConnectionState.waiting) {
+                return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              // هنا بقى التعديل اللي هيشيل الخط الأحمر نهائياً:
+              final dynamic data =
+                  roleSnapshot.data; // استلمنا الداتا كـ dynamic مؤقتاً
+
+              // شيك لو الداتا موجودة وحولها لـ Map
+              final Map<String, dynamic>? userData =
+                  (data != null && data.exists)
+                  ? data.data() as Map<String, dynamic>?
+                  : null;
+
+              final String role = userData?['role'] ?? 'user';
+
+              if (role == 'admin') {
+                return const buttonadmin();
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Provider.of<CartViewModel>(
+                    context,
+                    listen: false,
+                  ).setUser(user.uid);
+                });
+                return const BottomNavigation();
+              }
             },
-            child: BottomNavigation(),
           );
         }
 
-        return MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => LoginViewModel()),
-            ChangeNotifierProvider(create: (_) => SignupViewModel()),
-            ChangeNotifierProvider(create: (_) => AppSettings()),
-            ChangeNotifierProvider(create: (_) => ForgotPasswordViewModel()),
-          ],
-          child: loginpage(),
-        );
+        return const loginpage();
       },
     );
   }

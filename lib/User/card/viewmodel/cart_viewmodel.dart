@@ -8,7 +8,9 @@ class CartViewModel extends ChangeNotifier {
   double delivery = 50;
   String userEmail;
 
-  CartViewModel({required this.userEmail});
+  CartViewModel({required this.userEmail}) {
+    loadCart();
+  }
 
   void addToCart(CartItem item) {
     cartItems.add(item);
@@ -72,9 +74,10 @@ class CartViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setUser(String newUserId) {
-    userEmail = newUserId;
-    cartItems = []; // 🔥 امسح القديم
-    loadCart();
+  void setUser(String newUserEmail) async {
+    userEmail = newUserEmail;
+    cartItems = [];
+    notifyListeners();
+    await loadCart();
   }
 }

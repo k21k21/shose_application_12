@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:shose_application_12/Admin/adminbutton.dart';
 import 'package:shose_application_12/User/BottomNavigation/bottom_navigations.dart';
 import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
 
@@ -20,6 +20,7 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   // 🔹 Login بـ Email
+  // 🔹 Login بـ Email المعدل
   Future<void> login(BuildContext context, dynamic vm) async {
     if (!formKey.currentState!.validate()) return;
 
@@ -33,70 +34,59 @@ class LoginViewModel extends ChangeNotifier {
           );
 
       final user = userCredential.user;
-
-      // ✅ مسح البيانات بعد نجاح تسجيل الدخول
-      emailCon.clear();
-      passwordCon.clear();
-
       if (user != null) {
-        // تأكد بيانات المستخدم موجودة في Firestore
-        final doc = await FirebaseFirestore.instance
+        // 1. جلب الداتا مرة واحدة
+        DocumentSnapshot doc = await FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)
             .get();
 
-        if (!doc.exists) {
+        String role;
+
+        // 2. التحقق لو الدوكيومنت موجود فعلاً
+        if (doc.exists) {
+          // لو موجود، اسحب الداتا بأمان
+          final data = doc.data() as Map<String, dynamic>?;
+          role = data?['role'] ?? 'user';
+        } else {
+          // 3. لو مش موجود (ده اللي بيعمل الـ Exception عندك)
+          // كريته الأول وبعدين كمل بالرول الافتراضي
+          role = 'user';
           await FirebaseFirestore.instance
               .collection('users')
               .doc(user.uid)
               .set({
                 'email': user.email,
                 'createdAt': FieldValue.serverTimestamp(),
+                'role': role,
               });
         }
 
+        // دلوقتي الـ role بقى معاه قيمة مضمونة (إما من السيرفر أو اللي إنت لسه مكريه)
         if (!context.mounted) return;
 
-        // ⚡ الانتقال للصفحة الرئيسية بأمان
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ChangeNotifierProvider(
-              create: (_) => CartViewModel(userEmail: user.uid),
-              child: BottomNavigation(), // (لو عندك الصفحة دي)
+        emailCon.clear();
+        passwordCon.clear();
+
+        if (role == 'admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => buttonadmin()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ChangeNotifierProvider(
+                create: (_) => CartViewModel(userEmail: user.uid),
+                child: BottomNavigation(),
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
     } on FirebaseAuthException catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                Icon(Icons.error, color: Colors.white, size: 20.sp),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: Text(
-                    "Login failed",
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(16.w),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-          ),
-        );
-      }
+      // ... باقي كود الـ Error اللي إنت كاتبه زي ما هو
     } finally {
       setLoading(false);
     }

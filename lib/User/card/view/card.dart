@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shose_application_12/User/Checkout/view/checkoutview.dart';
 import '../viewmodel/cart_viewmodel.dart';
 import 'widgets/cart_itemcard.dart';
 import 'widgets/summary_row.dart';
@@ -116,7 +117,29 @@ class _CartPageState extends State<CartPage> {
         height: 50,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         color: Colors.black,
-        onPressed: () {},
+        onPressed: () {
+          final cart = Provider.of<CartViewModel>(context, listen: false);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Checkout(
+                cartItems: cart.cartItems
+                    .map(
+                      (item) => {
+                        "productName": item.name,
+                        "price": item.price,
+                        "quantity": item.quantity,
+                        "image": item.img,
+                      },
+                    )
+                    .toList(),
+
+                totalPrice: cart.price + cart.delivery,
+              ),
+            ),
+          );
+        },
         child: Text(
           "Checkout",
           style: TextStyle(

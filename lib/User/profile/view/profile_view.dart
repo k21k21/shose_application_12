@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shose_application_12/User/card/viewmodel/cart_viewmodel.dart';
 import 'package:shose_application_12/User/login/view/login.dart';
-import 'package:shose_application_12/User/login/viewmodel/login_viewmodel.dart';
+import 'package:shose_application_12/User/profile/view/MyOrders/myorders.dart';
 import 'package:shose_application_12/User/setting/view/setting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,6 +13,8 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -39,40 +39,52 @@ class _ProfileViewState extends State<ProfileView> {
                   child: Column(
                     children: [
                       SizedBox(height: 20.h),
-                      Center(
-                        child: CircleAvatar(
-                          radius: 45.r,
-                          backgroundImage: NetworkImage(
-                            'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80',
-                          ),
-                        ),
+
+                      CircleAvatar(
+                        radius: 45.r,
+                        backgroundImage: user?.photoURL != null
+                            ? NetworkImage(user!.photoURL!)
+                            : const NetworkImage(
+                                'https://i.pravatar.cc/150?img=3',
+                              ),
                       ),
+
                       SizedBox(height: 20.h),
-                      Center(
-                        child: Text(
-                          'Jane Cooper',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+
+                      Text(
+                        user?.displayName ??
+                            user?.email?.split('@')[0] ??
+                            "User",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+
                       SizedBox(height: 5.h),
-                      Center(
-                        child: Text(
-                          'Janeper01@gmail.com',
-                          style: TextStyle(color: Colors.grey, fontSize: 16.sp),
-                        ),
+
+                      Text(
+                        user?.email ?? "No Email",
+                        style: TextStyle(color: Colors.grey, fontSize: 16.sp),
                       ),
+
                       SizedBox(height: 25.h),
+
                       Padding(
                         padding: EdgeInsets.only(top: 30.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyOrdersPage(),
+                                  ),
+                                );
+                              },
                               child: Container(
                                 padding: EdgeInsets.symmetric(
                                   vertical: 12.h,
@@ -120,13 +132,11 @@ class _ProfileViewState extends State<ProfileView> {
                                       size: 28.sp,
                                     ),
                                     SizedBox(height: 5.h),
-                                    Center(
-                                      child: Text(
-                                        'My requests',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12.sp,
-                                        ),
+                                    Text(
+                                      'My requests',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.sp,
                                       ),
                                     ),
                                   ],
@@ -140,6 +150,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
               ),
+
               Padding(
                 padding: EdgeInsets.only(top: 20.h),
                 child: Column(
@@ -170,13 +181,14 @@ class _ProfileViewState extends State<ProfileView> {
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 18.sp,
-                              fontFamily: "Roboto_Condensed",
                             ),
                           ),
                         ),
                       ),
                     ),
+
                     SizedBox(height: 5.h),
+
                     InkWell(
                       onTap: () {},
                       child: Padding(
@@ -196,13 +208,14 @@ class _ProfileViewState extends State<ProfileView> {
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 18.sp,
-                              fontFamily: "Roboto_Condensed",
                             ),
                           ),
                         ),
                       ),
                     ),
+
                     SizedBox(height: 5.h),
+
                     InkWell(
                       onTap: () {},
                       child: Padding(
@@ -222,23 +235,20 @@ class _ProfileViewState extends State<ProfileView> {
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 18.sp,
-                              fontFamily: "Roboto_Condensed",
                             ),
                           ),
                         ),
                       ),
                     ),
+
                     SizedBox(height: 5.h),
+
                     InkWell(
                       onTap: () async {
-                        context.read<LoginViewModel>().emailCon.clear();
-                        context.read<LoginViewModel>().passwordCon.clear();
-
                         await FirebaseAuth.instance.signOut();
-                        if (!mounted) return;
+
                         Navigator.pushReplacement(
                           context,
-
                           MaterialPageRoute(builder: (context) => loginpage()),
                         );
                       },
@@ -259,7 +269,6 @@ class _ProfileViewState extends State<ProfileView> {
                               color: Colors.red,
                               fontWeight: FontWeight.w500,
                               fontSize: 18.sp,
-                              fontFamily: "Roboto_Condensed",
                             ),
                           ),
                         ),
