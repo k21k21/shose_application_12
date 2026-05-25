@@ -13,9 +13,15 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    // 1. إجبار الجافا على إصدار 17
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    // 2. الحل السحري: توحيد الجافا والكوتلن لكل المشروع والبلجنز عافية
+    kotlin {
+        jvmToolchain(17)
     }
 
     defaultConfig {
