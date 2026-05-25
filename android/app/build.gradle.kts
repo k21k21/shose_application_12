@@ -18,15 +18,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    // التحديث الجديد اللي السيرفر طالبة بديل لـ kotlinOptions
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-    }
-
-    // إجبار كل الـ Plugins الخارجية والقديمة تلتزم بنفس النظام الحديث
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    // الطريقة المضمونة لضبط إصدار الـ Target في الـ kts
+    afterEvaluate {
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
         }
     }
 
